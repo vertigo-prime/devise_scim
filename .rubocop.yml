@@ -1,0 +1,39 @@
+AllCops:
+  TargetRubyVersion: 3.2
+  NewCops: enable
+  SuggestExtensions: false
+  Exclude:
+    - "bin/**/*"
+    - "vendor/**/*"
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: double_quotes
+
+# Gems document via README/YARD, not inline module comments.
+Style/Documentation:
+  Enabled: false
+
+# Gemspec description intentionally verbose.
+Layout/LineLength:
+  Max: 140
+  Exclude:
+    - "*.gemspec"
+
+# initialize with many attrs and validate! with multiple guards exceed default 10.
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/AbcSize:
+  Max: 25
+
+# RSpec describe/context blocks routinely exceed 25 lines.
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*"
+
+# Not publishing to RubyGems.org yet.
+Gemspec/RequireMFA:
+  Enabled: false
