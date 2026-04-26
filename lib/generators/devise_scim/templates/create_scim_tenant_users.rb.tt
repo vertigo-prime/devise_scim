@@ -1,0 +1,21 @@
+# frozen_string_literal: true
+
+class CreateScimTenantUsers < ActiveRecord::Migration<%= migration_version %>
+  def change
+    create_table :scim_tenant_users do |t|
+      t.references :scim_tenant,    null: false, foreign_key: true
+      t.bigint     :user_id,        null: false
+      t.string     :scim_uid
+      t.datetime   :provisioned_at
+      t.datetime   :scim_claimed_at
+      t.boolean    :active,         null: false, default: true
+      t.<%= scim_raw_type %> :scim_raw
+      t.timestamps
+    end
+
+    add_index :scim_tenant_users, %i[scim_tenant_id user_id],  unique: true
+    add_index :scim_tenant_users, %i[scim_tenant_id scim_uid], unique: true,
+              where: "scim_uid IS NOT NULL"
+    add_foreign_key :scim_tenant_users, :<%= table_name %>, column: :user_id
+  end
+end

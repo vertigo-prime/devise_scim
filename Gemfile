@@ -16,5 +16,5 @@ group :development, :test do
   gem "rspec-rails", "~> 6.0"
   gem "simplecov", require: false
   gem "simplecov-cobertura", require: false
-  gem "sqlite3", "~> 1.4"
+  gem "sqlite3", ">= 2.1"
 end

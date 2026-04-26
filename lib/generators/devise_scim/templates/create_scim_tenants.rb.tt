@@ -1,0 +1,18 @@
+# frozen_string_literal: true
+
+class CreateScimTenants < ActiveRecord::Migration<%= migration_version %>
+  def change
+    create_table :scim_tenants do |t|
+      t.string  :name,                      null: false
+      t.string  :auth_method,               null: false, default: "token"
+      t.string  :token_digest
+      t.bigint  :doorkeeper_application_id
+      t.boolean :active,                    null: false, default: true
+      t.timestamps
+    end
+
+    add_foreign_key :scim_tenants, :oauth_applications,
+                    column: :doorkeeper_application_id,
+                    on_delete: :nullify
+  end
+end

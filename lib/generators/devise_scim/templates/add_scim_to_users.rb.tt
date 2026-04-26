@@ -1,0 +1,15 @@
+# frozen_string_literal: true
+
+class AddScimTo<%= model_name.camelize.pluralize %> < ActiveRecord::Migration<%= migration_version %>
+  def change
+<%- unless options[:multi_tenant] -%>
+    add_column :<%= table_name %>, :scim_uid, :string
+    add_index  :<%= table_name %>, :scim_uid, unique: true
+<%- end -%>
+    add_column :<%= table_name %>, :scim_provisioned,      :boolean,  default: false, null: false
+    add_column :<%= table_name %>, :scim_active,           :boolean,  default: true,  null: false
+    add_column :<%= table_name %>, :scim_source,           :string
+    add_column :<%= table_name %>, :scim_deprovisioned_at, :datetime
+    add_column :<%= table_name %>, :scim_raw,              :<%= scim_raw_type %>
+  end
+end

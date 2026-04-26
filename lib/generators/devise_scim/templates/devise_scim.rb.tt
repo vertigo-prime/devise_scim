@@ -1,0 +1,50 @@
+# frozen_string_literal: true
+
+DeviseScim.configure do |config|
+  # Mount path for all SCIM 2.0 endpoints.
+  config.route_prefix = "/scim/v2"
+
+  # Tenancy mode. :single = one IdP; :multi = per-tenant credentials and scoping.
+  config.tenancy = :<%= options[:multi_tenant] ? "multi" : "single" %>
+
+  # Devise model that represents provisioned users.
+  config.devise_model = "<%= model_name %>"
+
+  # Expose /Groups endpoints. Implement handle_group_* in your ScimAdapter when true.
+  config.enable_groups = false
+
+  # true = destroy record on DELETE; false = set scim_active=false only.
+  config.soft_delete = true
+
+  # Behaviour when a DELETE targets a user not originally provisioned via SCIM.
+  # false = 200 OK, no action (default); true = deprovision anyway; :error = 409 Conflict.
+  config.deprovision_manual_users = false
+
+  # Adapter class that maps SCIM attributes to your model.
+  # Run `rails g devise_scim:adapter` to generate a pre-filled starting point.
+  config.adapter = nil # replace with ApplicationScimAdapter after running the adapter generator
+
+  # ── Single-tenant auth ────────────────────────────────────────────────────────
+  # Ignored in multi-tenant mode (credentials live on each ScimTenant record).
+
+  # :token = Authorization: Bearer <token>; :oauth = Doorkeeper client credentials.
+  config.auth_method = :token
+
+  # Bearer token (plain-text). Store in an env var — never commit to source control.
+  config.token = ENV.fetch("SCIM_BEARER_TOKEN", nil)
+
+  # OAuth 2.0 client credentials. Requires the doorkeeper gem.
+  config.oauth_client_id     = ENV.fetch("SCIM_CLIENT_ID", nil)
+  config.oauth_client_secret = ENV.fetch("SCIM_CLIENT_SECRET", nil)
+
+  # ── Multi-tenant options ──────────────────────────────────────────────────────
+  # Ignored in single-tenant mode.
+
+  # :multiple = a user may belong to many tenants (default).
+  # :one_to_one = a user may belong to at most one tenant.
+  config.user_exclusivity = :multiple
+
+  # Behaviour when :one_to_one and a POST /Users matches a user in another tenant.
+  # :error = 409 Conflict (default); :reassign = move user to new tenant.
+  config.exclusivity_conflict = :error
+end

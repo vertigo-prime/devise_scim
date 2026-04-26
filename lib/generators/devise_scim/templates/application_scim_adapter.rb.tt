@@ -1,0 +1,19 @@
+# frozen_string_literal: true
+
+class ApplicationScimAdapter < DeviseScim::ScimAdapter
+  # Map SCIM User attributes → Devise model fields.
+  # Called on POST /Users and PUT/PATCH /Users/:id.
+  # Must return the mutated user instance (not yet saved).
+  def map_scim_user(scim_object, user)
+    user.email = scim_object.email
+    user
+  end
+
+  # Implement these if your app models SCIM Groups (Rolify roles, AR model, etc.).
+  # No-op by default — safe to leave empty if groups are not used.
+  def handle_group_create(scim_group); end
+
+  def handle_group_update(scim_group, existing); end
+
+  def handle_group_destroy(scim_group); end
+end
