@@ -13,7 +13,7 @@ group :development, :test do
   gem "combustion", "~> 1.3"
   gem "doorkeeper", "~> 5.6"
   gem "factory_bot_rails"
-  gem "rspec-rails", "~> 6.0"
+  gem "rspec-rails", "~> 8.0"
   gem "simplecov", require: false
   gem "simplecov-cobertura", require: false
   gem "sqlite3", ">= 2.1"

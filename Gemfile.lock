@@ -232,14 +232,14 @@ GEM
     rspec-mocks (3.13.8)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
-    rspec-rails (6.1.5)
-      actionpack (>= 6.1)
-      activesupport (>= 6.1)
-      railties (>= 6.1)
-      rspec-core (~> 3.13)
-      rspec-expectations (~> 3.13)
-      rspec-mocks (~> 3.13)
-      rspec-support (~> 3.13)
+    rspec-rails (8.0.4)
+      actionpack (>= 7.2)
+      activesupport (>= 7.2)
+      railties (>= 7.2)
+      rspec-core (>= 3.13.0, < 5.0.0)
+      rspec-expectations (>= 3.13.0, < 5.0.0)
+      rspec-mocks (>= 3.13.0, < 5.0.0)
+      rspec-support (>= 3.13.0, < 5.0.0)
     rspec-support (3.13.7)
     rubocop (1.86.1)
       json (~> 2.3)
@@ -300,7 +300,7 @@ DEPENDENCIES
   factory_bot_rails
   irb
   rake (~> 13.0)
-  rspec-rails (~> 6.0)
+  rspec-rails (~> 8.0)
   rubocop (~> 1.21)
   simplecov
   simplecov-cobertura
@@ -387,7 +387,7 @@ CHECKSUMS
   rspec-core (3.13.6) sha256=a8823c6411667b60a8bca135364351dda34cd55e44ff94c4be4633b37d828b2d
   rspec-expectations (3.13.5) sha256=33a4d3a1d95060aea4c94e9f237030a8f9eae5615e9bd85718fe3a09e4b58836
   rspec-mocks (3.13.8) sha256=086ad3d3d17533f4237643de0b5c42f04b66348c28bf6b9c2d3f4a3b01af1d47
-  rspec-rails (6.1.5) sha256=d11afce893ceb6e2c3c11db280f83dee6d0120d150228cef6b989d37c7394c4b
+  rspec-rails (8.0.4) sha256=06235692fc0892683d3d34977e081db867434b3a24ae0dd0c6f3516bad4e22df
   rspec-support (3.13.7) sha256=0640e5570872aafefd79867901deeeeb40b0c9875a36b983d85f54fb7381c47c
   rubocop (1.86.1) sha256=44415f3f01d01a21e01132248d2fd0867572475b566ca188a0a42133a08d4531
   rubocop-ast (1.49.1) sha256=4412f3ee70f6fe4546cc489548e0f6fcf76cafcfa80fa03af67098ffed755035
