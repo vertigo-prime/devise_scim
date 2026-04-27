@@ -5,6 +5,7 @@ require_relative "devise_scim/configuration"
 if defined?(Rails)
   require_relative "devise_scim/concerns/scim_tenant"
   require_relative "devise_scim/models/scim_tenant"
+  require_relative "devise_scim/models/scim_tenant_user"
   require_relative "devise_scim/engine"
 end
 

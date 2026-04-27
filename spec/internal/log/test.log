@@ -1593,3 +1593,701 @@ Generating image variants require the image_processing gem. Please add `gem "ima
   [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
   [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
   [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[35m (3.6ms)[0m  [1m[35mDROP TABLE IF EXISTS "users"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "scim_tenants"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "scim_tenants" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "auth_method" varchar DEFAULT 'token' NOT NULL, "token_digest" varchar, "active" boolean DEFAULT TRUE NOT NULL, "doorkeeper_application_id" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "scim_tenant_users"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "scim_tenant_users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "scim_tenant_id" bigint NOT NULL, "user_id" bigint NOT NULL, "scim_uid" varchar, "provisioned_at" datetime(6), "scim_claimed_at" datetime(6), "active" boolean DEFAULT TRUE NOT NULL, "scim_raw" text, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_scim_tenant_users_on_scim_tenant_id_and_user_id" ON "scim_tenant_users" ("scim_tenant_id", "user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_scim_tenant_users_on_scim_tenant_id_and_scim_uid" ON "scim_tenant_users" ("scim_tenant_id", "scim_uid") WHERE scim_uid IS NOT NULL[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.0ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2026-04-27 02:59:39.719741', '2026-04-27 02:59:39.719743') RETURNING "key"[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+Generating image variants require the image_processing gem. Please add `gem "image_processing", "~> 1.2"` to your Gemfile or set `config.active_storage.variant_processor = :disabled`.
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "users"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "scim_tenants"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "scim_tenants" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "auth_method" varchar DEFAULT 'token' NOT NULL, "token_digest" varchar, "active" boolean DEFAULT TRUE NOT NULL, "doorkeeper_application_id" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "scim_tenant_users"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "scim_tenant_users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "scim_tenant_id" bigint NOT NULL, "user_id" bigint NOT NULL, "scim_uid" varchar, "provisioned_at" datetime(6), "scim_claimed_at" datetime(6), "active" boolean DEFAULT TRUE NOT NULL, "scim_raw" text, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_scim_tenant_users_on_scim_tenant_id_and_user_id" ON "scim_tenant_users" ("scim_tenant_id", "user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_scim_tenant_users_on_scim_tenant_id_and_scim_uid" ON "scim_tenant_users" ("scim_tenant_id", "scim_uid") WHERE scim_uid IS NOT NULL[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.0ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2026-04-27 02:59:39.928341', '2026-04-27 02:59:39.928343') RETURNING "key"[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x000000012076fb58> Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 02:59:39.931549"], ["updated_at", "2026-04-27 02:59:39.931549"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x000000012076fb58> Update (0.2ms)[0m  [1m[33mUPDATE "scim_tenants" SET "token_digest" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["token_digest", "$2a$12$dv9W2Z4lmXo4ZMM74dN5XedlsF7cS5tf2lFGDJVt6CPofsMP5VGWm"], ["updated_at", "2026-04-27 02:59:40.198895"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36m Load (0.1ms)[0m  [1m[34mSELECT "scim_tenants".* FROM "scim_tenants" WHERE "scim_tenants"."auth_method" = ? AND "scim_tenants"."active" = ?[0m  [["auth_method", "token"], ["active", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x0000000123b52f88> Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 02:59:40.484305"], ["updated_at", "2026-04-27 02:59:40.484305"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x0000000123b52f88> Update (0.2ms)[0m  [1m[33mUPDATE "scim_tenants" SET "token_digest" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["token_digest", "$2a$12$caVuNRnAhUGTONZrpSrL4eAMBa3MY4drLoWNdUA1i7rhfqBF5maDK"], ["updated_at", "2026-04-27 02:59:40.751432"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36m Load (0.0ms)[0m  [1m[34mSELECT "scim_tenants".* FROM "scim_tenants" WHERE "scim_tenants"."auth_method" = ? AND "scim_tenants"."active" = ?[0m  [["auth_method", "token"], ["active", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x0000000123c142f0> Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 02:59:41.020054"], ["updated_at", "2026-04-27 02:59:41.020054"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x0000000123c142f0> Update (0.2ms)[0m  [1m[33mUPDATE "scim_tenants" SET "token_digest" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["token_digest", "$2a$12$3DQhJVAAlu2.UFoeYztzo.Popl84rDLThswERXdwQy8ujSvhzVMxK"], ["updated_at", "2026-04-27 02:59:41.287003"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x0000000123c142f0> Update (0.1ms)[0m  [1m[33mUPDATE "scim_tenants" SET "active" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["active", 0], ["updated_at", "2026-04-27 02:59:41.287777"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36m Load (0.0ms)[0m  [1m[34mSELECT "scim_tenants".* FROM "scim_tenants" WHERE "scim_tenants"."auth_method" = ? AND "scim_tenants"."active" = ?[0m  [["auth_method", "token"], ["active", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x0000000123cb3350> Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 02:59:41.289913"], ["updated_at", "2026-04-27 02:59:41.289913"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x0000000123cb3350> Update (0.2ms)[0m  [1m[33mUPDATE "scim_tenants" SET "token_digest" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["token_digest", "$2a$12$YWmp8xj48tgJdwxn00eb8.dgWDdVqWu2SZOtZwN2TssG0ba/zhtRq"], ["updated_at", "2026-04-27 02:59:41.555273"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x0000000123cb3350> Update (0.1ms)[0m  [1m[33mUPDATE "scim_tenants" SET "auth_method" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["auth_method", "oauth"], ["updated_at", "2026-04-27 02:59:41.555964"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36m Load (0.0ms)[0m  [1m[34mSELECT "scim_tenants".* FROM "scim_tenants" WHERE "scim_tenants"."auth_method" = ? AND "scim_tenants"."active" = ?[0m  [["auth_method", "token"], ["active", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x0000000123d31fe8> Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 02:59:41.558123"], ["updated_at", "2026-04-27 02:59:41.558123"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x0000000123d31fe8> Update (0.2ms)[0m  [1m[33mUPDATE "scim_tenants" SET "token_digest" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["token_digest", "$2a$12$POKj63WeNmgwxh6EhIqp/uUHpVo4rM/ckCeCwT15JoObdTTBrzl/6"], ["updated_at", "2026-04-27 02:59:41.825438"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36m Load (0.1ms)[0m  [1m[34mSELECT "scim_tenants".* FROM "scim_tenants" WHERE "scim_tenants"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x0000000123dd26c8> Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 02:59:41.829447"], ["updated_at", "2026-04-27 02:59:41.829447"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x0000000123dd26c8> Update (0.6ms)[0m  [1m[33mUPDATE "scim_tenants" SET "token_digest" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["token_digest", "$2a$12$8X3BVsfNT5CfiUxbN4C.W.OOTJlGT54hTnYIp1dzs4x8ZXs6qObI2"], ["updated_at", "2026-04-27 02:59:42.095135"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36m Load (0.0ms)[0m  [1m[34mSELECT "scim_tenants".* FROM "scim_tenants" WHERE "scim_tenants"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.2ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 02:59:42.492229"], ["updated_at", "2026-04-27 02:59:42.492229"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 02:59:42.493630"], ["updated_at", "2026-04-27 02:59:42.493630"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 02:59:42.494256"], ["updated_at", "2026-04-27 02:59:42.494256"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Update (0.2ms)[0m  [1m[33mUPDATE "scim_tenants" SET "token_digest" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["token_digest", "$2a$12$Gj4ypYTWUB71oe92Eoxpa.1V8iMYdXLZbXwok45Ja6r6Q4eX42kd."], ["updated_at", "2026-04-27 02:59:42.759954"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Load (0.0ms)[0m  [1m[34mSELECT "scim_tenants".* FROM "scim_tenants" WHERE "scim_tenants"."auth_method" = ? AND "scim_tenants"."active" = ?[0m  [["auth_method", "token"], ["active", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 02:59:43.027019"], ["updated_at", "2026-04-27 02:59:43.027019"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Update (0.2ms)[0m  [1m[33mUPDATE "scim_tenants" SET "token_digest" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["token_digest", "$2a$12$Q7KohqzQ3hTE8yr0hyTQoukjbDO1wy8nkbVtwq/TwXsvrZ8Szi3CW"], ["updated_at", "2026-04-27 02:59:43.295805"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Load (0.0ms)[0m  [1m[34mSELECT "scim_tenants".* FROM "scim_tenants" WHERE "scim_tenants"."auth_method" = ? AND "scim_tenants"."active" = ?[0m  [["auth_method", "token"], ["active", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 02:59:43.564106"], ["updated_at", "2026-04-27 02:59:43.564106"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Update (0.2ms)[0m  [1m[33mUPDATE "scim_tenants" SET "token_digest" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["token_digest", "$2a$12$edINXjakqkDeTwLRy6sQze8TYQNnGV.Qc5LA9/eswYfNNmTP3Njsi"], ["updated_at", "2026-04-27 02:59:43.831214"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Update (0.1ms)[0m  [1m[33mUPDATE "scim_tenants" SET "active" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["active", 0], ["updated_at", "2026-04-27 02:59:43.832063"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Load (0.1ms)[0m  [1m[34mSELECT "scim_tenants".* FROM "scim_tenants" WHERE "scim_tenants"."auth_method" = ? AND "scim_tenants"."active" = ?[0m  [["auth_method", "token"], ["active", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 02:59:43.833327"], ["updated_at", "2026-04-27 02:59:43.833327"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Update (0.2ms)[0m  [1m[33mUPDATE "scim_tenants" SET "token_digest" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["token_digest", "$2a$12$RZfhZE0NZYjouY1B9p1rgukF8AXCCVzkFvLBZuebEobmoyouivPii"], ["updated_at", "2026-04-27 02:59:44.100175"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Update (0.1ms)[0m  [1m[33mUPDATE "scim_tenants" SET "auth_method" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["auth_method", "oauth"], ["updated_at", "2026-04-27 02:59:44.100883"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Load (0.0ms)[0m  [1m[34mSELECT "scim_tenants".* FROM "scim_tenants" WHERE "scim_tenants"."auth_method" = ? AND "scim_tenants"."active" = ?[0m  [["auth_method", "token"], ["active", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 02:59:44.102181"], ["updated_at", "2026-04-27 02:59:44.102181"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Update (0.2ms)[0m  [1m[33mUPDATE "scim_tenants" SET "token_digest" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["token_digest", "$2a$12$kNQAP6tjIvLykNUdLGmAWOnJqaluqkdrAHxDRxmBlDuhIMHDfglFS"], ["updated_at", "2026-04-27 02:59:44.369760"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Load (0.0ms)[0m  [1m[34mSELECT "scim_tenants".* FROM "scim_tenants" WHERE "scim_tenants"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 02:59:44.638755"], ["updated_at", "2026-04-27 02:59:44.638755"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "active", "created_at", "updated_at") VALUES (?, ?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["active", 0], ["created_at", "2026-04-27 02:59:44.639328"], ["updated_at", "2026-04-27 02:59:44.639328"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 02:59:44.640795"], ["updated_at", "2026-04-27 02:59:44.640795"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 02:59:44.641379"], ["updated_at", "2026-04-27 02:59:44.641379"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenantUser Load (0.1ms)[0m  [1m[34mSELECT "scim_tenant_users".* FROM "scim_tenant_users" WHERE "scim_tenant_users"."scim_tenant_id" = ?[0m  [["scim_tenant_id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 02:59:44.650809"], ["updated_at", "2026-04-27 02:59:44.650809"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("email", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["email", "alice@example.com"], ["created_at", "2026-04-27 02:59:44.652866"], ["updated_at", "2026-04-27 02:59:44.652866"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenantUser Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenant_users" ("scim_tenant_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?) RETURNING "id"[0m  [["scim_tenant_id", 1], ["user_id", 1], ["created_at", "2026-04-27 02:59:44.656085"], ["updated_at", "2026-04-27 02:59:44.656085"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.2ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 02:59:44.656977"], ["updated_at", "2026-04-27 02:59:44.656977"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("email", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["email", "alice@example.com"], ["created_at", "2026-04-27 02:59:44.657480"], ["updated_at", "2026-04-27 02:59:44.657480"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenantUser Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenant_users" ("scim_tenant_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?) RETURNING "id"[0m  [["scim_tenant_id", 1], ["user_id", 1], ["created_at", "2026-04-27 02:59:44.657825"], ["updated_at", "2026-04-27 02:59:44.657825"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 02:59:44.658428"], ["updated_at", "2026-04-27 02:59:44.658428"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("email", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["email", "alice@example.com"], ["created_at", "2026-04-27 02:59:44.658735"], ["updated_at", "2026-04-27 02:59:44.658735"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenantUser Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenant_users" ("scim_tenant_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?) RETURNING "id"[0m  [["scim_tenant_id", 1], ["user_id", 1], ["created_at", "2026-04-27 02:59:44.659079"], ["updated_at", "2026-04-27 02:59:44.659079"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenantUser Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "scim_tenant_users" WHERE "scim_tenant_users"."scim_tenant_id" = ?[0m  [["scim_tenant_id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 02:59:44.660099"], ["updated_at", "2026-04-27 02:59:44.660099"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("email", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["email", "alice@example.com"], ["created_at", "2026-04-27 02:59:44.660415"], ["updated_at", "2026-04-27 02:59:44.660415"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenantUser Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenant_users" ("scim_tenant_id", "user_id", "scim_uid", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?) RETURNING "id"[0m  [["scim_tenant_id", 1], ["user_id", 1], ["scim_uid", "ext-123"], ["created_at", "2026-04-27 02:59:44.660825"], ["updated_at", "2026-04-27 02:59:44.660825"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenantUser Load (0.1ms)[0m  [1m[34mSELECT "scim_tenant_users".* FROM "scim_tenant_users" WHERE "scim_tenant_users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 02:59:44.662021"], ["updated_at", "2026-04-27 02:59:44.662021"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("email", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["email", "alice@example.com"], ["created_at", "2026-04-27 02:59:44.662406"], ["updated_at", "2026-04-27 02:59:44.662406"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenantUser Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenant_users" ("scim_tenant_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?) RETURNING "id"[0m  [["scim_tenant_id", 1], ["user_id", 1], ["created_at", "2026-04-27 02:59:44.662778"], ["updated_at", "2026-04-27 02:59:44.662778"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[35m (2.6ms)[0m  [1m[35mDROP TABLE IF EXISTS "users"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "scim_tenants"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "scim_tenants" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "auth_method" varchar DEFAULT 'token' NOT NULL, "token_digest" varchar, "active" boolean DEFAULT TRUE NOT NULL, "doorkeeper_application_id" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "scim_tenant_users"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "scim_tenant_users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "scim_tenant_id" bigint NOT NULL, "user_id" bigint NOT NULL, "scim_uid" varchar, "provisioned_at" datetime(6), "scim_claimed_at" datetime(6), "active" boolean DEFAULT TRUE NOT NULL, "scim_raw" text, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_scim_tenant_users_on_scim_tenant_id_and_user_id" ON "scim_tenant_users" ("scim_tenant_id", "user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_scim_tenant_users_on_scim_tenant_id_and_scim_uid" ON "scim_tenant_users" ("scim_tenant_id", "scim_uid") WHERE scim_uid IS NOT NULL[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.0ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2026-04-27 03:00:03.459857', '2026-04-27 03:00:03.459859') RETURNING "key"[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+Generating image variants require the image_processing gem. Please add `gem "image_processing", "~> 1.2"` to your Gemfile or set `config.active_storage.variant_processor = :disabled`.
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "users"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "scim_tenants"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "scim_tenants" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "auth_method" varchar DEFAULT 'token' NOT NULL, "token_digest" varchar, "active" boolean DEFAULT TRUE NOT NULL, "doorkeeper_application_id" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "scim_tenant_users"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "scim_tenant_users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "scim_tenant_id" bigint NOT NULL, "user_id" bigint NOT NULL, "scim_uid" varchar, "provisioned_at" datetime(6), "scim_claimed_at" datetime(6), "active" boolean DEFAULT TRUE NOT NULL, "scim_raw" text, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_scim_tenant_users_on_scim_tenant_id_and_user_id" ON "scim_tenant_users" ("scim_tenant_id", "user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_scim_tenant_users_on_scim_tenant_id_and_scim_uid" ON "scim_tenant_users" ("scim_tenant_id", "scim_uid") WHERE scim_uid IS NOT NULL[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.0ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2026-04-27 03:00:03.689522', '2026-04-27 03:00:03.689524') RETURNING "key"[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x000000010ca5c1e0> Create (0.2ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 03:00:03.692951"], ["updated_at", "2026-04-27 03:00:03.692951"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x000000010ca5c1e0> Update (0.2ms)[0m  [1m[33mUPDATE "scim_tenants" SET "token_digest" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["token_digest", "$2a$12$T4CxrAoib4aZR6Y.ypdPIujbbgOHP8tzbGy7Q9vmdKNQDssOPFL9G"], ["updated_at", "2026-04-27 03:00:03.961197"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36m Load (0.1ms)[0m  [1m[34mSELECT "scim_tenants".* FROM "scim_tenants" WHERE "scim_tenants"."auth_method" = ? AND "scim_tenants"."active" = ?[0m  [["auth_method", "token"], ["active", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x000000010af08cb8> Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 03:00:04.248540"], ["updated_at", "2026-04-27 03:00:04.248540"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x000000010af08cb8> Update (0.3ms)[0m  [1m[33mUPDATE "scim_tenants" SET "token_digest" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["token_digest", "$2a$12$Yj2qf4N2NiW25Jsdpo32deWf.Eo8mGUmdMV6NlZGBx3a8uAch7Yui"], ["updated_at", "2026-04-27 03:00:04.515407"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36m Load (0.0ms)[0m  [1m[34mSELECT "scim_tenants".* FROM "scim_tenants" WHERE "scim_tenants"."auth_method" = ? AND "scim_tenants"."active" = ?[0m  [["auth_method", "token"], ["active", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x000000010a0b4068> Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 03:00:04.783271"], ["updated_at", "2026-04-27 03:00:04.783271"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x000000010a0b4068> Update (0.2ms)[0m  [1m[33mUPDATE "scim_tenants" SET "token_digest" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["token_digest", "$2a$12$ut8qEQvr51kV3H6NgYX/CeHeaKxn8I.i4iv.9zO3NN4Ifb8gJ5EdO"], ["updated_at", "2026-04-27 03:00:05.049437"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x000000010a0b4068> Update (0.1ms)[0m  [1m[33mUPDATE "scim_tenants" SET "active" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["active", 0], ["updated_at", "2026-04-27 03:00:05.050195"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36m Load (0.0ms)[0m  [1m[34mSELECT "scim_tenants".* FROM "scim_tenants" WHERE "scim_tenants"."auth_method" = ? AND "scim_tenants"."active" = ?[0m  [["auth_method", "token"], ["active", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x000000010de46728> Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 03:00:05.052432"], ["updated_at", "2026-04-27 03:00:05.052432"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x000000010de46728> Update (0.2ms)[0m  [1m[33mUPDATE "scim_tenants" SET "token_digest" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["token_digest", "$2a$12$0zQVAgU9kod3AxHOfv3QqOGVPoeS7NY1darYchrPfQ.FqeOY/uMJm"], ["updated_at", "2026-04-27 03:00:05.319459"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x000000010de46728> Update (0.1ms)[0m  [1m[33mUPDATE "scim_tenants" SET "auth_method" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["auth_method", "oauth"], ["updated_at", "2026-04-27 03:00:05.320148"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36m Load (0.0ms)[0m  [1m[34mSELECT "scim_tenants".* FROM "scim_tenants" WHERE "scim_tenants"."auth_method" = ? AND "scim_tenants"."active" = ?[0m  [["auth_method", "token"], ["active", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x000000010dec5460> Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 03:00:05.323216"], ["updated_at", "2026-04-27 03:00:05.323216"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x000000010dec5460> Update (0.2ms)[0m  [1m[33mUPDATE "scim_tenants" SET "token_digest" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["token_digest", "$2a$12$tMjf/Uf7mcbluM.vjccDcOn4qDAq088Aek7CaaukT60t3y3OZjd6W"], ["updated_at", "2026-04-27 03:00:05.589596"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36m Load (0.1ms)[0m  [1m[34mSELECT "scim_tenants".* FROM "scim_tenants" WHERE "scim_tenants"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x000000010df65aa0> Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 03:00:05.593295"], ["updated_at", "2026-04-27 03:00:05.593295"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36m#<Class:0x000000010df65aa0> Update (0.2ms)[0m  [1m[33mUPDATE "scim_tenants" SET "token_digest" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["token_digest", "$2a$12$K5Wz59zVUZG79ElX2arwau2imrGAxyANiii0qCSXTR0uBl/LXec3a"], ["updated_at", "2026-04-27 03:00:05.858875"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36m Load (0.0ms)[0m  [1m[34mSELECT "scim_tenants".* FROM "scim_tenants" WHERE "scim_tenants"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.2ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 03:00:06.248760"], ["updated_at", "2026-04-27 03:00:06.248760"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 03:00:06.249978"], ["updated_at", "2026-04-27 03:00:06.249978"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 03:00:06.250625"], ["updated_at", "2026-04-27 03:00:06.250625"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Update (0.2ms)[0m  [1m[33mUPDATE "scim_tenants" SET "token_digest" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["token_digest", "$2a$12$zPnm389HJvZPKAqlyvdr1e5JnUivBAaxqiLPUg1P1Roib5YLdC9Py"], ["updated_at", "2026-04-27 03:00:06.515746"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Load (0.0ms)[0m  [1m[34mSELECT "scim_tenants".* FROM "scim_tenants" WHERE "scim_tenants"."auth_method" = ? AND "scim_tenants"."active" = ?[0m  [["auth_method", "token"], ["active", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 03:00:06.783838"], ["updated_at", "2026-04-27 03:00:06.783838"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Update (0.2ms)[0m  [1m[33mUPDATE "scim_tenants" SET "token_digest" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["token_digest", "$2a$12$JxE80Yvqmov64dsa8TAF3OtmJXSs9hx2ZGtgR9uox08b6.HeBsfFi"], ["updated_at", "2026-04-27 03:00:07.050744"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Load (0.0ms)[0m  [1m[34mSELECT "scim_tenants".* FROM "scim_tenants" WHERE "scim_tenants"."auth_method" = ? AND "scim_tenants"."active" = ?[0m  [["auth_method", "token"], ["active", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 03:00:07.318191"], ["updated_at", "2026-04-27 03:00:07.318191"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Update (0.2ms)[0m  [1m[33mUPDATE "scim_tenants" SET "token_digest" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["token_digest", "$2a$12$D0KNy9P8.biLKWQPR3E4zesEjFngWj2zX3LaK3M9rcsJUribjviwy"], ["updated_at", "2026-04-27 03:00:07.583841"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Update (0.1ms)[0m  [1m[33mUPDATE "scim_tenants" SET "active" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["active", 0], ["updated_at", "2026-04-27 03:00:07.584562"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Load (0.0ms)[0m  [1m[34mSELECT "scim_tenants".* FROM "scim_tenants" WHERE "scim_tenants"."auth_method" = ? AND "scim_tenants"."active" = ?[0m  [["auth_method", "token"], ["active", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 03:00:07.585980"], ["updated_at", "2026-04-27 03:00:07.585980"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Update (0.2ms)[0m  [1m[33mUPDATE "scim_tenants" SET "token_digest" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["token_digest", "$2a$12$70LcAh17ncNVKyQ6sKEeReHagB.zqAk0Bwm5QLccjWPMPGsaQlimu"], ["updated_at", "2026-04-27 03:00:07.851542"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Update (0.1ms)[0m  [1m[33mUPDATE "scim_tenants" SET "auth_method" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["auth_method", "oauth"], ["updated_at", "2026-04-27 03:00:07.852301"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Load (0.0ms)[0m  [1m[34mSELECT "scim_tenants".* FROM "scim_tenants" WHERE "scim_tenants"."auth_method" = ? AND "scim_tenants"."active" = ?[0m  [["auth_method", "token"], ["active", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 03:00:07.853447"], ["updated_at", "2026-04-27 03:00:07.853447"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Update (0.2ms)[0m  [1m[33mUPDATE "scim_tenants" SET "token_digest" = ?, "updated_at" = ? WHERE "scim_tenants"."id" = ?[0m  [["token_digest", "$2a$12$1i3kcNaruPBP6i6CBkrbh.ELxt23mF88OndoMblUsOCEZGQwr.7hm"], ["updated_at", "2026-04-27 03:00:08.119252"], ["id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Load (0.1ms)[0m  [1m[34mSELECT "scim_tenants".* FROM "scim_tenants" WHERE "scim_tenants"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 03:00:08.388580"], ["updated_at", "2026-04-27 03:00:08.388580"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "active", "created_at", "updated_at") VALUES (?, ?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["active", 0], ["created_at", "2026-04-27 03:00:08.389123"], ["updated_at", "2026-04-27 03:00:08.389123"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 03:00:08.390355"], ["updated_at", "2026-04-27 03:00:08.390355"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 03:00:08.390926"], ["updated_at", "2026-04-27 03:00:08.390926"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenantUser Load (0.1ms)[0m  [1m[34mSELECT "scim_tenant_users".* FROM "scim_tenant_users" WHERE "scim_tenant_users"."scim_tenant_id" = ?[0m  [["scim_tenant_id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 03:00:08.400815"], ["updated_at", "2026-04-27 03:00:08.400815"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("email", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["email", "alice@example.com"], ["created_at", "2026-04-27 03:00:08.402799"], ["updated_at", "2026-04-27 03:00:08.402799"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenantUser Create (0.2ms)[0m  [1m[32mINSERT INTO "scim_tenant_users" ("scim_tenant_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?) RETURNING "id"[0m  [["scim_tenant_id", 1], ["user_id", 1], ["created_at", "2026-04-27 03:00:08.406712"], ["updated_at", "2026-04-27 03:00:08.406712"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.4ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 03:00:08.407818"], ["updated_at", "2026-04-27 03:00:08.407818"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("email", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["email", "alice@example.com"], ["created_at", "2026-04-27 03:00:08.408518"], ["updated_at", "2026-04-27 03:00:08.408518"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenantUser Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenant_users" ("scim_tenant_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?) RETURNING "id"[0m  [["scim_tenant_id", 1], ["user_id", 1], ["created_at", "2026-04-27 03:00:08.408870"], ["updated_at", "2026-04-27 03:00:08.408870"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 03:00:08.409476"], ["updated_at", "2026-04-27 03:00:08.409476"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("email", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["email", "alice@example.com"], ["created_at", "2026-04-27 03:00:08.409786"], ["updated_at", "2026-04-27 03:00:08.409786"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenantUser Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenant_users" ("scim_tenant_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?) RETURNING "id"[0m  [["scim_tenant_id", 1], ["user_id", 1], ["created_at", "2026-04-27 03:00:08.410111"], ["updated_at", "2026-04-27 03:00:08.410111"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenantUser Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "scim_tenant_users" WHERE "scim_tenant_users"."scim_tenant_id" = ?[0m  [["scim_tenant_id", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 03:00:08.411100"], ["updated_at", "2026-04-27 03:00:08.411100"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("email", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["email", "alice@example.com"], ["created_at", "2026-04-27 03:00:08.411406"], ["updated_at", "2026-04-27 03:00:08.411406"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenantUser Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenant_users" ("scim_tenant_id", "user_id", "scim_uid", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?) RETURNING "id"[0m  [["scim_tenant_id", 1], ["user_id", 1], ["scim_uid", "ext-123"], ["created_at", "2026-04-27 03:00:08.411917"], ["updated_at", "2026-04-27 03:00:08.411917"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenantUser Load (0.1ms)[0m  [1m[34mSELECT "scim_tenant_users".* FROM "scim_tenant_users" WHERE "scim_tenant_users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenant Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenants" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "Acme"], ["created_at", "2026-04-27 03:00:08.412803"], ["updated_at", "2026-04-27 03:00:08.412803"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("email", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["email", "alice@example.com"], ["created_at", "2026-04-27 03:00:08.413124"], ["updated_at", "2026-04-27 03:00:08.413124"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDeviseScim::ScimTenantUser Create (0.1ms)[0m  [1m[32mINSERT INTO "scim_tenant_users" ("scim_tenant_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?) RETURNING "id"[0m  [["scim_tenant_id", 1], ["user_id", 1], ["created_at", "2026-04-27 03:00:08.413453"], ["updated_at", "2026-04-27 03:00:08.413453"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m

@@ -39,7 +39,10 @@ DeviseScim.configure do |config|
 
   # ── Multi-tenant options ──────────────────────────────────────────────────────
   # Ignored in single-tenant mode.
-
+<% if options[:tenant_model] %>
+  # AR model used as the SCIM tenant. Defaults to DeviseScim::ScimTenant.
+  config.tenant_model = "<%= options[:tenant_model] %>"
+<% end %>
   # :multiple = a user may belong to many tenants (default).
   # :one_to_one = a user may belong to at most one tenant.
   config.user_exclusivity = :multiple

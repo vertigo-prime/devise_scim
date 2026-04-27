@@ -1,0 +1,17 @@
+# frozen_string_literal: true
+
+class AddScimTo<%= options[:tenant_model].camelize.pluralize %> < ActiveRecord::Migration<%= migration_version %>
+  def change
+    unless column_exists?(:<%= tenant_table_name %>, :token_digest)
+      add_column :<%= tenant_table_name %>, :token_digest, :string
+    end
+    unless column_exists?(:<%= tenant_table_name %>, :auth_method)
+      add_column :<%= tenant_table_name %>, :auth_method, :string, null: false, default: "token"
+    end
+    unless column_exists?(:<%= tenant_table_name %>, :doorkeeper_application_id)
+      add_column :<%= tenant_table_name %>, :doorkeeper_application_id, :bigint
+      add_foreign_key :<%= tenant_table_name %>, :oauth_applications,
+                      column: :doorkeeper_application_id, on_delete: :nullify
+    end
+  end
+end

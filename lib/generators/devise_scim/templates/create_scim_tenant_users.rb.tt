@@ -3,7 +3,8 @@
 class CreateScimTenantUsers < ActiveRecord::Migration<%= migration_version %>
   def change
     create_table :scim_tenant_users do |t|
-      t.references :scim_tenant,    null: false, foreign_key: true
+      t.references :<%= tenant_ref_name %>, null: false,
+                   foreign_key: { to_table: :<%= tenant_table_name %> }
       t.bigint     :user_id,        null: false
       t.string     :scim_uid
       t.datetime   :provisioned_at
@@ -13,8 +14,8 @@ class CreateScimTenantUsers < ActiveRecord::Migration<%= migration_version %>
       t.timestamps
     end
 
-    add_index :scim_tenant_users, %i[scim_tenant_id user_id],  unique: true
-    add_index :scim_tenant_users, %i[scim_tenant_id scim_uid], unique: true,
+    add_index :scim_tenant_users, [:<%= tenant_fk_column %>, :user_id],  unique: true
+    add_index :scim_tenant_users, [:<%= tenant_fk_column %>, :scim_uid], unique: true,
               where: "scim_uid IS NOT NULL"
     add_foreign_key :scim_tenant_users, :<%= table_name %>, column: :user_id
   end

@@ -193,6 +193,37 @@ RSpec.describe DeviseScim::Generators::InstallGenerator do
     end
   end
 
+  # ── multi-tenant with custom tenant model ────────────────────────────────────
+
+  context "with --multi-tenant --tenant-model=Org, doorkeeper present and installed" do
+    before do
+      write_gemfile("gem 'doorkeeper'")
+      stub_doorkeeper_installed
+      run_gen ["User"], { multi_tenant: true, tenant_model: "Org" }
+    end
+
+    it "skips create_scim_tenants migration" do
+      expect(migration_exists?("create_scim_tenants")).to be false
+    end
+
+    it "generates add_scim_to_orgs migration with conditional add_column" do
+      expect(migration_exists?("add_scim_to_orgs")).to be true
+      content = migration_content("add_scim_to_orgs")
+      expect(content).to include("column_exists?(:orgs, :token_digest)")
+      expect(content).to include("column_exists?(:orgs, :auth_method)")
+      expect(content).to include("column_exists?(:orgs, :doorkeeper_application_id)")
+    end
+
+    it "generates create_scim_tenant_users with org_id FK column" do
+      expect(migration_exists?("create_scim_tenant_users")).to be true
+      expect(migration_content("create_scim_tenant_users")).to include("org_id")
+    end
+
+    it "sets config.tenant_model in the initializer" do
+      expect(initializer_content).to include('config.tenant_model = "Org"')
+    end
+  end
+
   context "with --multi-tenant, doorkeeper in Gemfile but not installed, user declines" do
     before { write_gemfile("gem 'doorkeeper'") }
 

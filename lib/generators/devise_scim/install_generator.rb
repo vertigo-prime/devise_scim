@@ -17,6 +17,9 @@ module DeviseScim
                                   desc: "Generate multi-tenant migrations"
       class_option :oauth, type: :boolean, default: false,
                            desc: "Configure OAuth 2.0 client-credentials auth"
+      class_option :tenant_model, type: :string, default: nil,
+                                  desc: "Existing model to use as the SCIM tenant (e.g. Org). " \
+                                        "Omit to use the built-in DeviseScim::ScimTenant."
 
       def self.next_migration_number(dirname)
         ActiveRecord::Generators::Base.next_migration_number(dirname)
@@ -50,7 +53,12 @@ module DeviseScim
       def copy_tenant_migrations
         return unless options[:multi_tenant]
 
-        migration_template "create_scim_tenants.rb.tt",      "db/migrate/create_scim_tenants.rb"
+        if options[:tenant_model]
+          migration_template "add_scim_to_tenant.rb.tt",
+                             "db/migrate/add_scim_to_#{tenant_table_name}.rb"
+        else
+          migration_template "create_scim_tenants.rb.tt", "db/migrate/create_scim_tenants.rb"
+        end
         migration_template "create_scim_tenant_users.rb.tt", "db/migrate/create_scim_tenant_users.rb"
       end
 
@@ -80,6 +88,18 @@ module DeviseScim
 
       def table_name
         model_name.underscore.pluralize
+      end
+
+      def tenant_table_name
+        options[:tenant_model] ? options[:tenant_model].underscore.pluralize : "scim_tenants"
+      end
+
+      def tenant_ref_name
+        options[:tenant_model] ? options[:tenant_model].underscore : "scim_tenant"
+      end
+
+      def tenant_fk_column
+        options[:tenant_model] ? "#{options[:tenant_model].underscore}_id" : "scim_tenant_id"
       end
 
       def migration_version

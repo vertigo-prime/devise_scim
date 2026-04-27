@@ -80,4 +80,16 @@ RSpec.describe DeviseScim::ScimTenant do
       expect(record.valid?).to be false
     end
   end
+
+  describe "associations" do
+    let(:tenant) { create_tenant }
+
+    it "has many scim_tenant_users" do
+      expect(tenant).to respond_to(:scim_tenant_users)
+    end
+
+    it "scim_tenant_users returns empty collection by default" do
+      expect(tenant.scim_tenant_users.to_a).to eq([])
+    end
+  end
 end

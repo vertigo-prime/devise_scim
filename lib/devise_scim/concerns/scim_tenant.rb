@@ -10,7 +10,7 @@ module DeviseScim
 
       included do
         validates :auth_method, inclusion: { in: %w[token oauth] }
-        validate :validate_label_column_presence
+        validates scim_tenant_label_column, presence: true
       end
 
       class_methods do
@@ -35,13 +35,6 @@ module DeviseScim
 
       def scim_active?
         active
-      end
-
-      private
-
-      def validate_label_column_presence
-        col = self.class.scim_tenant_label_column
-        errors.add(col, :blank) if send(col).blank?
       end
     end
   end
