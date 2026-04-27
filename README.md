@@ -31,7 +31,15 @@ bundle install
 
 ## Quick start: single-tenant, bearer token
 
-**1. Configure the initializer**
+**1. Run the generator**
+
+```sh
+rails g devise_scim:install User
+```
+
+This creates `config/initializers/devise_scim.rb` and the required migrations.
+
+**2. Configure the generated initializer**
 
 ```ruby
 # config/initializers/devise_scim.rb
@@ -44,7 +52,7 @@ DeviseScim.configure do |config|
 end
 ```
 
-**2. Mount routes**
+**3. Mount routes**
 
 ```ruby
 # config/routes.rb
@@ -53,10 +61,9 @@ Rails.application.routes.draw do
 end
 ```
 
-**3. Generate migrations and run them**
+**4. Run migrations**
 
 ```sh
-rails g devise_scim:install User
 rails db:migrate
 ```
 
