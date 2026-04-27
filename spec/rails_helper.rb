@@ -13,9 +13,11 @@ require "factory_bot_rails"
 # is instantiated). In the test app we never build the full Rack stack, so
 # warden_config stays nil. Patch it to a no-op so route recognition works.
 Devise.singleton_class.prepend(Module.new do
+  # rubocop:disable Naming/PredicateMethod
   def configure_warden!
     true
   end
+  # rubocop:enable Naming/PredicateMethod
 end)
 
 RSpec.configure do |config|
