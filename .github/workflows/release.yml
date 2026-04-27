@@ -57,6 +57,8 @@ jobs:
 
       - name: Update lockfile
         run: bundle install # rewrites Gemfile.lock with new version
+        env:
+          BUNDLE_FROZEN: "false"
 
       - name: Update CHANGELOG
         run: |
