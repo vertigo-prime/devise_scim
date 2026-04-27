@@ -339,3 +339,9 @@ The shared RSpec example covers index, show, create, replace, PATCH update, dele
 ## License
 
 MIT. Used at your own risk. No liability is held by the author.
+
+## Contributing
+
+1. This gem was developed with significant assistance from Claude (Anthropic). Contributions and audits welcome, AI or otherwise.
+2. Please follow the [contributing guidelines](CONTRIBUTING.md) for submitting pull requests and reporting issues.
+3. Ensure your code adheres to the [code of conduct](CODE_OF_CONDUCT.md) and is tested with the provided test harness.
