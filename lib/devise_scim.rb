@@ -10,6 +10,7 @@ if defined?(Rails)
   require_relative "devise_scim/auth/token_strategy"
   require_relative "devise_scim/auth/oauth_strategy"
   require_relative "devise_scim/middleware/authenticator"
+  require_relative "devise_scim/routing"
   require_relative "devise_scim/engine"
 end
 

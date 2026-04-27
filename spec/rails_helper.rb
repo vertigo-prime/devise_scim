@@ -8,6 +8,16 @@ require "rspec/rails"
 require "devise"
 require "factory_bot_rails"
 
+# Devise calls configure_warden! during route finalization and requires
+# Devise.warden_config to be set (populated when Warden::Manager middleware
+# is instantiated). In the test app we never build the full Rack stack, so
+# warden_config stays nil. Patch it to a no-op so route recognition works.
+Devise.singleton_class.prepend(Module.new do
+  def configure_warden!
+    true
+  end
+end)
+
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.use_transactional_fixtures = true
