@@ -15,7 +15,7 @@ module DeviseScim
         result = build_strategy.authenticate(env)
 
         if result.nil?
-          unauthorized_response
+          unauthorized_response(env)
         else
           env["devise_scim.tenant"] = result unless result == :ok
           @app.call(env)
@@ -36,7 +36,9 @@ module DeviseScim
         end
       end
 
-      def unauthorized_response
+      def unauthorized_response(env)
+        # Prevent Warden from intercepting the 401 and attempting its failure app.
+        env["warden"].custom_failure! if env["warden"].respond_to?(:custom_failure!)
         body = {
           schemas: ["urn:ietf:params:scim:api:messages:2.0:Error"],
           status: "401",

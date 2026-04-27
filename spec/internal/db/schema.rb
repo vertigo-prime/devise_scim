@@ -2,7 +2,11 @@
 
 ActiveRecord::Schema.define do
   create_table :users, force: true do |t|
-    t.string :email
+    t.string   :email
+    t.string   :scim_uid
+    t.string   :scim_source
+    t.boolean  :scim_active, default: true
+    t.datetime :scim_deprovisioned_at
     t.timestamps
   end
 

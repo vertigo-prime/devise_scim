@@ -51,7 +51,8 @@ module DeviseScim
     end
 
     def column?(name)
-      record.class.column_names.include?(name.to_s)
+      record.class.respond_to?(:column_names) &&
+        record.class.column_names.include?(name.to_s)
     end
 
     def resolve_active
