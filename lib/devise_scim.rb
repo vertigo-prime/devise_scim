@@ -6,6 +6,10 @@ if defined?(Rails)
   require_relative "devise_scim/concerns/scim_tenant"
   require_relative "devise_scim/models/scim_tenant"
   require_relative "devise_scim/models/scim_tenant_user"
+  require_relative "devise_scim/auth/base_strategy"
+  require_relative "devise_scim/auth/token_strategy"
+  require_relative "devise_scim/auth/oauth_strategy"
+  require_relative "devise_scim/middleware/authenticator"
   require_relative "devise_scim/engine"
 end
 
