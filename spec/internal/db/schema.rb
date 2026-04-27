@@ -29,4 +29,11 @@ ActiveRecord::Schema.define do
   add_index :scim_tenant_users, %i[scim_tenant_id user_id],  unique: true
   add_index :scim_tenant_users, %i[scim_tenant_id scim_uid], unique: true,
                                                              where: "scim_uid IS NOT NULL"
+
+  create_table :scim_groups, force: true do |t|
+    t.string  :display_name
+    t.string  :scim_group_uid
+    t.integer :tenant_id
+    t.timestamps
+  end
 end

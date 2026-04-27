@@ -11,6 +11,8 @@ if defined?(Rails)
   require_relative "devise_scim/scim/list_response"
   require_relative "devise_scim/scim/error"
   require_relative "devise_scim/scim/patch_operation"
+  require_relative "devise_scim/scim_adapter"
+  require_relative "devise_scim/concerns/scim_group_identifiable"
   require_relative "devise_scim/auth/base_strategy"
   require_relative "devise_scim/auth/token_strategy"
   require_relative "devise_scim/auth/oauth_strategy"
