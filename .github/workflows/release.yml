@@ -84,4 +84,5 @@ jobs:
           version="${{ steps.bump.outputs.new }}"
           gh release create "v$version" \
             --title "v$version" \
+            --target "$(git rev-parse HEAD)" \
             --notes "See [CHANGELOG.md](https://github.com/vertigo-prime/devise_scim/blob/main/CHANGELOG.md) for details."
