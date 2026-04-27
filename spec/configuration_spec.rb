@@ -17,6 +17,7 @@ RSpec.describe DeviseScim::Configuration do
     it { expect(config.user_exclusivity).to eq(:multiple) }
     it { expect(config.exclusivity_conflict).to eq(:error) }
     it { expect(config.adapter).to be_nil }
+    it { expect(config.tenant_model).to eq("DeviseScim::ScimTenant") }
   end
 
   describe "#validate!" do
@@ -73,6 +74,28 @@ RSpec.describe DeviseScim::Configuration do
         config.tenancy = :single
         config.user_exclusivity = :one_to_one
         expect { config.validate! }.to raise_error(DeviseScim::ConfigurationError, /one_to_one/)
+      end
+    end
+
+    context "tenant_model" do
+      it "accepts arbitrary string in multi-tenant mode" do
+        config.tenancy = :multi
+        config.tenant_model = "Org"
+        expect { config.validate! }.not_to raise_error
+      end
+
+      it "raises when customized in single-tenant mode" do
+        config.tenancy = :single
+        config.tenant_model = "Org"
+        expect { config.validate! }.to raise_error(
+          DeviseScim::ConfigurationError, /tenant_model is only applicable in multi-tenant mode/
+        )
+      end
+
+      it "passes when default value is set in single-tenant mode" do
+        config.tenancy = :single
+        config.tenant_model = "DeviseScim::ScimTenant"
+        expect { config.validate! }.not_to raise_error
       end
     end
   end

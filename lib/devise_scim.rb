@@ -2,7 +2,11 @@
 
 require_relative "devise_scim/version"
 require_relative "devise_scim/configuration"
-require_relative "devise_scim/engine" if defined?(Rails)
+if defined?(Rails)
+  require_relative "devise_scim/concerns/scim_tenant"
+  require_relative "devise_scim/models/scim_tenant"
+  require_relative "devise_scim/engine"
+end
 
 module DeviseScim
   class Error < StandardError; end
