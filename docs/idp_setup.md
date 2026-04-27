@@ -250,6 +250,39 @@ curl -s -G -H "Authorization: Bearer YOUR_TOKEN" \
 
 ---
 
+## Okta SCIM Test Harness
+
+Okta provides a Runscope-based SCIM 2.0 test harness that validates your provider before activating provisioning in production. Run it against a staging environment exposed via a public URL (e.g. `ngrok http 3000`).
+
+**How to run:**
+
+1. In Okta Admin → your SCIM app → **Provisioning** tab → **Test API Credentials** — verifies the base URL and token before any test.
+2. Navigate to the [Okta SCIM Test Suite](https://developer.okta.com/docs/guides/scim-provisioning-integration-test/) and import the Runscope test bucket for SCIM 2.0.
+3. Set environment variables in Runscope:
+   - `base_url` — e.g. `https://abc123.ngrok-free.app/scim/v2`
+   - `auth_header` — `Bearer YOUR_TOKEN`
+4. Run the full test suite.
+
+**Expected results against `devise_scim` v0.1.0:**
+
+| Test group | Result | Notes |
+|---|---|---|
+| Authentication | Pass | 401 on missing/invalid token |
+| User create (`POST /Users`) | Pass | Returns 201 with `id`, full user representation |
+| User read (`GET /Users/:id`) | Pass | Returns 200 with correct schema |
+| User list (`GET /Users`) | Pass | Pagination via `startIndex` + `count`; filter via `userName eq "..."` |
+| User update (`PUT /Users/:id`) | Pass | Full replace |
+| User patch (`PATCH /Users/:id`) | Pass | `replace` op on `active`, `name.*`, `emails` |
+| User deprovision (`PATCH active=false`) | Pass | Calls `after_deprovision`; `active` returns false on next GET |
+| User reprovision (`PATCH active=true`) | Pass | Re-activates; `scim_source` preserved |
+| ServiceProviderConfig | Pass | Correct `schemas`, `filter.supported`, `patch.supported` |
+| Schemas discovery | Pass | Returns User and Group schema definitions |
+
+> [!NOTE]
+> Group tests require a `ScimAdapter` that implements `handle_group_create`, `handle_group_update`, and `handle_group_destroy`. The default adapter returns `501 Not Implemented` for these, which Okta's harness flags as a warning (not a failure) when Groups provisioning is disabled in the Okta app.
+
+---
+
 ## SCIM Filter Support
 
 The gem implements a full recursive-descent SCIM filter parser (RFC 7644 §3.4.2.2).
