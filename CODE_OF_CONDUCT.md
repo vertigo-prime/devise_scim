@@ -7,4 +7,5 @@
 * When interpreting the words and actions of others, participants should always assume good intentions.
 * Behaviour which can be reasonably considered harassment will not be tolerated.
 
-If you have any concerns about behaviour within this project, please contact us at ["benjamin.vinson@hover.to"](mailto:"benjamin.vinson@hover.to").
+If you have any concerns about behaviour within this project, please contact us through the [Issues](https://github.com/vertigo-prime/devise_scim/issues) tab.
+
