@@ -33,6 +33,9 @@ jobs:
           ruby-version: "3.4"
           bundler-cache: true
 
+      - name: Run test suite
+        run: bundle exec rspec
+
       - name: Bump version
         id: bump
         run: |
@@ -56,9 +59,6 @@ jobs:
           today=$(date +%Y-%m-%d)
           new="${{ steps.bump.outputs.new }}"
           sed -i "s/## \[Unreleased\]/## [Unreleased]\n\n## [$new] - $today/" CHANGELOG.md
-
-      - name: Run test suite
-        run: bundle exec rspec
 
       - name: Commit and tag
         run: |
