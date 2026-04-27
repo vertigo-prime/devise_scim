@@ -93,6 +93,7 @@ jobs:
 
       - name: Sync version bump back to dev
         run: |
-          git checkout dev
+          git fetch origin dev
+          git checkout -B dev origin/dev
           git merge main --no-ff -m "chore: sync v${{ steps.bump.outputs.new }} back to dev"
           git push origin dev
