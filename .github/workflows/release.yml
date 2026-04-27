@@ -55,6 +55,9 @@ jobs:
 
           sed -i "s/VERSION = \"$current\"/VERSION = \"$new\"/" lib/devise_scim/version.rb
 
+      - name: Update lockfile
+        run: bundle install # rewrites Gemfile.lock with new version
+
       - name: Update CHANGELOG
         run: |
           today=$(date +%Y-%m-%d)
@@ -87,3 +90,9 @@ jobs:
             --title "v$version" \
             --target "$(git rev-parse HEAD)" \
             --notes "See [CHANGELOG.md](https://github.com/vertigo-prime/devise_scim/blob/main/CHANGELOG.md) for details."
+
+      - name: Sync version bump back to dev
+        run: |
+          git checkout dev
+          git merge main --no-ff -m "chore: sync v${{ steps.bump.outputs.new }} back to dev"
+          git push origin dev
