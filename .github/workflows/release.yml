@@ -56,7 +56,7 @@ jobs:
           sed -i "s/VERSION = \"$current\"/VERSION = \"$new\"/" lib/devise_scim/version.rb
 
       - name: Update lockfile
-        run: bundle install # rewrites Gemfile.lock with new version
+        run: bundle install
         env:
           BUNDLE_FROZEN: "false"
 
@@ -78,10 +78,10 @@ jobs:
       - name: Build gem
         run: gem build devise_scim.gemspec
 
-#      - name: Push to RubyGems
-#        env:
-#          GEM_HOST_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
-#        run: gem push "devise_scim-${{ steps.bump.outputs.new }}.gem"
+      #      - name: Push to RubyGems
+      #        env:
+      #          GEM_HOST_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
+      #        run: gem push "devise_scim-${{ steps.bump.outputs.new }}.gem"
 
       - name: Create GitHub release
         env:
@@ -92,10 +92,3 @@ jobs:
             --title "v$version" \
             --target "$(git rev-parse HEAD)" \
             --notes "See [CHANGELOG.md](https://github.com/vertigo-prime/devise_scim/blob/main/CHANGELOG.md) for details."
-
-      - name: Sync version bump back to dev
-        run: |
-          git fetch origin dev
-          git checkout -B dev origin/dev
-          git merge main --no-ff -m "chore: sync v${{ steps.bump.outputs.new }} back to dev"
-          git push origin dev
