@@ -15,7 +15,6 @@ on:
 
 permissions:
   contents: write
-  id-token: write
 
 jobs:
   release:
@@ -67,15 +66,21 @@ jobs:
           new="${{ steps.bump.outputs.new }}"
           sed -i "s/## \[Unreleased\]/## [Unreleased]\n\n## [$new] - $today/" CHANGELOG.md
 
-      - name: Commit and push
+      - name: Commit and tag
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add lib/devise_scim/version.rb CHANGELOG.md Gemfile.lock
           git commit -m "chore: release v${{ steps.bump.outputs.new }}"
-          git push
+          git tag "v${{ steps.bump.outputs.new }}"
+          git push --follow-tags
 
-      - uses: rubygems/release-gem@6317d8d1f7e28c24d28f6eff169ea854948bd9f7 # v1.2.0
+      - name: Build and push gem
+        env:
+          GEM_HOST_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
+        run: |
+          gem build devise_scim.gemspec
+          gem push "devise_scim-${{ steps.bump.outputs.new }}.gem"
 
       - name: Create GitHub release
         env:
