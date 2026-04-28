@@ -40,5 +40,16 @@ RSpec.describe "DeviseScim ServiceProviderConfig", type: :request do
       get "/scim/v2/ServiceProviderConfig", headers: headers
       expect(response.content_type).to include("application/scim+json")
     end
+
+    context "with oauth auth_method" do
+      before { DeviseScim.configure { |c| c.auth_method = :oauth } }
+
+      it "returns OAuth auth scheme description" do
+        get "/scim_oauth/ServiceProviderConfig", headers: headers
+        parsed = JSON.parse(response.body)
+        scheme = parsed["authenticationSchemes"].first
+        expect(scheme["description"]).to include("OAuth2")
+      end
+    end
   end
 end

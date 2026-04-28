@@ -69,6 +69,62 @@ RSpec.describe DeviseScim::Filter::ArelVisitor do
     end
   end
 
+  describe "or (disjunction)" do
+    it "returns users matching either condition" do
+      results = apply('userName eq "alice@example.com" or userName eq "bob@example.com"')
+      expect(results.map(&:email)).to contain_exactly("alice@example.com", "bob@example.com")
+    end
+  end
+
+  describe "ew (ends with)" do
+    it "filters by suffix" do
+      results = apply('userName ew "@example.com"')
+      expect(results.map(&:email)).to contain_exactly("alice@example.com", "bob@example.com")
+    end
+  end
+
+  describe "pr (present)" do
+    it "returns users with non-null attribute" do
+      results = apply("userName pr")
+      expect(results.map(&:email)).to contain_exactly("alice@example.com", "bob@example.com")
+    end
+  end
+
+  describe "gt (greater than)" do
+    it "filters by email greater than a string" do
+      results = apply('userName gt "a@example.com"')
+      expect(results.map(&:email)).to include("alice@example.com", "bob@example.com")
+    end
+  end
+
+  describe "ge (greater than or equal)" do
+    it "filters by email >= string" do
+      results = apply('userName ge "alice@example.com"')
+      expect(results.map(&:email)).to include("alice@example.com")
+    end
+  end
+
+  describe "lt (less than)" do
+    it "filters by email less than a string" do
+      results = apply('userName lt "z@example.com"')
+      expect(results.map(&:email)).to include("alice@example.com", "bob@example.com")
+    end
+  end
+
+  describe "le (less than or equal)" do
+    it "filters by email <= string" do
+      results = apply('userName le "bob@example.com"')
+      expect(results.map(&:email)).to include("alice@example.com", "bob@example.com")
+    end
+  end
+
+  describe "AttrPath (bracketed attr without comparator)" do
+    it "returns users where emails is not null" do
+      results = apply('emails[type eq "work"]')
+      expect(results.count).to eq(2)
+    end
+  end
+
   describe "unknown attribute" do
     it "raises InvalidFilter" do
       expect { apply('unknownAttr eq "x"') }.to raise_error(DeviseScim::InvalidFilter)
