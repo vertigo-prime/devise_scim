@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [0.1.14] - 2026-04-28
+
+- ci: populate CHANGELOG with commits on release
+
 ## [0.1.13] - 2026-04-28
 
 ## [0.1.12] - 2026-04-28
