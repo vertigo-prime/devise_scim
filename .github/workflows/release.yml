@@ -61,10 +61,33 @@ jobs:
           BUNDLE_FROZEN: "false"
 
       - name: Update CHANGELOG
+        env:
+          NEW_VER: ${{ steps.bump.outputs.new }}
+          PREV_VER: ${{ steps.bump.outputs.current }}
         run: |
           today=$(date +%Y-%m-%d)
-          new="${{ steps.bump.outputs.new }}"
-          sed -i "s/## \[Unreleased\]/## [Unreleased]\n\n## [$new] - $today/" CHANGELOG.md
+          prev_tag="v${PREV_VER}"
+
+          if git rev-parse "$prev_tag" >/dev/null 2>&1; then
+            commits=$(git log "${prev_tag}..HEAD" --no-merges --format="- %s")
+          else
+            commits=""
+          fi
+
+          export TODAY="$today"
+          export COMMITS="$commits"
+
+          ruby -e '
+            content  = File.read("CHANGELOG.md")
+            new_ver  = ENV.fetch("NEW_VER")
+            today    = ENV.fetch("TODAY")
+            commits  = ENV.fetch("COMMITS", "")
+
+            section  = "\n\n## [#{new_ver}] - #{today}"
+            section += "\n\n#{commits}" unless commits.strip.empty?
+
+            File.write("CHANGELOG.md", content.sub("## [Unreleased]", "## [Unreleased]#{section}"))
+          '
 
       - name: Commit and tag
         run: |
