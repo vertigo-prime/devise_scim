@@ -29,8 +29,8 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "bcrypt", "~> 3.1"
-  spec.add_dependency "devise", "~> 4.9"
+  spec.add_dependency "bcrypt", ">= 3.1", "< 4"
+  spec.add_dependency "devise", ">= 4.9", "< 6"
   spec.add_dependency "rails", ">= 7.0", "< 9"
 
   # Optional: doorkeeper >= 5.6 required only when OAuth auth is used.
