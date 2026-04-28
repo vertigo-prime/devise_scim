@@ -129,6 +129,25 @@ RSpec.describe "DeviseScim Users", type: :request do
     end
   end
 
+  describe "POST /scim/v2/Users with externalId" do
+    let(:payload) do
+      {
+        "schemas" => [DeviseScim::Scim::USER_SCHEMA],
+        "userName" => "uid-user@example.com",
+        "externalId" => "ext-abc"
+      }
+    end
+
+    it "stores scim_uid and finds user by uid on subsequent create" do
+      post "/scim/v2/Users", params: payload.to_json, headers: headers
+      expect(response).to have_http_status(:created)
+      expect(User.last.scim_uid).to eq("ext-abc")
+
+      post "/scim/v2/Users", params: payload.to_json, headers: headers
+      expect(response).to have_http_status(:conflict)
+    end
+  end
+
   describe "PATCH /scim/v2/Users/:id" do
     let!(:user) { User.create!(email: "alice@example.com", scim_active: true) }
 
@@ -140,6 +159,76 @@ RSpec.describe "DeviseScim Users", type: :request do
       patch "/scim/v2/Users/#{user.id}", params: payload.to_json, headers: headers
       expect(response).to have_http_status(:ok)
       expect(user.reload.scim_active).to be(false)
+    end
+
+    it "patches email via userName path" do
+      payload = {
+        "schemas" => ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations" => [{ "op" => "replace", "path" => "userName", "value" => "new@example.com" }]
+      }
+      patch "/scim/v2/Users/#{user.id}", params: payload.to_json, headers: headers
+      expect(response).to have_http_status(:ok)
+      expect(user.reload.email).to eq("new@example.com")
+    end
+
+    it "patches email via emails path" do
+      payload = {
+        "schemas" => ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations" => [{
+          "op" => "replace", "path" => "emails",
+          "value" => [{ "value" => "emails@example.com", "primary" => true }]
+        }]
+      }
+      patch "/scim/v2/Users/#{user.id}", params: payload.to_json, headers: headers
+      expect(response).to have_http_status(:ok)
+      expect(user.reload.email).to eq("emails@example.com")
+    end
+
+    it "patches name.givenName (no-op when column absent)" do
+      payload = {
+        "schemas" => ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations" => [{ "op" => "replace", "path" => "name.givenName", "value" => "Bob" }]
+      }
+      patch "/scim/v2/Users/#{user.id}", params: payload.to_json, headers: headers
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "patches name.familyName (no-op when column absent)" do
+      payload = {
+        "schemas" => ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations" => [{ "op" => "replace", "path" => "name.familyName", "value" => "Smith" }]
+      }
+      patch "/scim/v2/Users/#{user.id}", params: payload.to_json, headers: headers
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "applies valuemap patch (operation without path)" do
+      payload = {
+        "schemas" => ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations" => [{ "op" => "replace", "value" => { "active" => false } }]
+      }
+      patch "/scim/v2/Users/#{user.id}", params: payload.to_json, headers: headers
+      expect(response).to have_http_status(:ok)
+      expect(user.reload.scim_active).to be(false)
+    end
+
+    it "applies valuemap patch with userName" do
+      payload = {
+        "schemas" => ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations" => [{ "op" => "replace", "value" => { "userName" => "vm@example.com" } }]
+      }
+      patch "/scim/v2/Users/#{user.id}", params: payload.to_json, headers: headers
+      expect(response).to have_http_status(:ok)
+      expect(user.reload.email).to eq("vm@example.com")
+    end
+
+    it "applies valuemap patch with name (no-op when columns absent)" do
+      payload = {
+        "schemas" => ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations" => [{ "op" => "replace", "value" => { "name" => { "givenName" => "Bob", "familyName" => "Smith" } } }]
+      }
+      patch "/scim/v2/Users/#{user.id}", params: payload.to_json, headers: headers
+      expect(response).to have_http_status(:ok)
     end
   end
 
@@ -184,6 +273,118 @@ RSpec.describe "DeviseScim Users", type: :request do
     it "returns 401 for wrong token" do
       get "/scim/v2/Users", headers: { "Authorization" => "Bearer wrong" }
       expect(response).to have_http_status(:unauthorized)
+    end
+  end
+
+  context "multi-tenant" do
+    let(:tenant) { DeviseScim::ScimTenant.create!(name: "Acme", auth_method: "token", active: true) }
+    let(:mt_token) { "mt-token" }
+    let(:mt_headers) { { "Authorization" => "Bearer #{mt_token}", "Content-Type" => "application/json" } }
+
+    before do
+      DeviseScim.configure do |c|
+        c.tenancy     = :multi
+        c.auth_method = :token
+      end
+      allow(DeviseScim::ScimTenant).to receive(:authenticate_token).with(mt_token).and_return(tenant)
+    end
+
+    let(:payload) { { "schemas" => [DeviseScim::Scim::USER_SCHEMA], "userName" => "mt@example.com" } }
+
+    describe "GET /scim/v2/Users" do
+      it "returns only users provisioned to this tenant" do
+        user = User.create!(email: "mt@example.com")
+        DeviseScim::ScimTenantUser.create!(scim_tenant_id: tenant.id, user_id: user.id,
+                                           active: true, provisioned_at: Time.current)
+        other_user = User.create!(email: "other@example.com")
+
+        get "/scim/v2/Users", headers: mt_headers
+        parsed = JSON.parse(response.body)
+        emails = parsed["Resources"].map { |u| u["userName"] }
+        expect(emails).to include("mt@example.com")
+        expect(emails).not_to include(other_user.email)
+      end
+    end
+
+    describe "POST /scim/v2/Users" do
+      it "creates a new user and assigns to tenant" do
+        expect do
+          post "/scim/v2/Users", params: payload.to_json, headers: mt_headers
+        end.to change(User, :count).by(1).and change(DeviseScim::ScimTenantUser, :count).by(1)
+        expect(response).to have_http_status(:created)
+      end
+
+      it "returns 409 when user is already active in this tenant" do
+        user = User.create!(email: "mt@example.com")
+        DeviseScim::ScimTenantUser.create!(scim_tenant_id: tenant.id, user_id: user.id,
+                                           active: true, provisioned_at: Time.current)
+
+        post "/scim/v2/Users", params: payload.to_json, headers: mt_headers
+        expect(response).to have_http_status(:conflict)
+      end
+
+      it "claims an existing user not yet in any tenant" do
+        User.create!(email: "mt@example.com")
+
+        expect do
+          post "/scim/v2/Users", params: payload.to_json, headers: mt_headers
+        end.to change(DeviseScim::ScimTenantUser, :count).by(1)
+        expect(response).to have_http_status(:created)
+        expect(DeviseScim::ScimTenantUser.last.scim_claimed_at).not_to be_nil
+      end
+
+      it "allows assigning user to multiple tenants when user_exclusivity is :multiple" do
+        other_tenant = DeviseScim::ScimTenant.create!(name: "Other", auth_method: "token", active: true)
+        user = User.create!(email: "mt@example.com")
+        DeviseScim::ScimTenantUser.create!(scim_tenant_id: other_tenant.id, user_id: user.id,
+                                           active: true, provisioned_at: Time.current)
+
+        DeviseScim.configure { |c| c.user_exclusivity = :multiple }
+        post "/scim/v2/Users", params: payload.to_json, headers: mt_headers
+        expect(response).to have_http_status(:created)
+        expect(DeviseScim::ScimTenantUser.where(user_id: user.id).count).to eq(2)
+      end
+
+      it "returns 409 when user belongs to another tenant and exclusivity_conflict is :error" do
+        other_tenant = DeviseScim::ScimTenant.create!(name: "Other", auth_method: "token", active: true)
+        user = User.create!(email: "mt@example.com")
+        DeviseScim::ScimTenantUser.create!(scim_tenant_id: other_tenant.id, user_id: user.id,
+                                           active: true, provisioned_at: Time.current)
+
+        DeviseScim.configure do |c|
+          c.user_exclusivity = :one_to_one
+          c.exclusivity_conflict = :error
+        end
+        post "/scim/v2/Users", params: payload.to_json, headers: mt_headers
+        expect(response).to have_http_status(:conflict)
+      end
+
+      it "reassigns user from another tenant when exclusivity_conflict is :reassign" do
+        other_tenant = DeviseScim::ScimTenant.create!(name: "Other", auth_method: "token", active: true)
+        user = User.create!(email: "mt@example.com")
+        old_join = DeviseScim::ScimTenantUser.create!(scim_tenant_id: other_tenant.id, user_id: user.id,
+                                                      active: true, provisioned_at: Time.current)
+
+        DeviseScim.configure do |c|
+          c.user_exclusivity = :one_to_one
+          c.exclusivity_conflict = :reassign
+        end
+        post "/scim/v2/Users", params: payload.to_json, headers: mt_headers
+        expect(response).to have_http_status(:created)
+        expect(old_join.reload.active).to be(false)
+      end
+    end
+
+    describe "DELETE /scim/v2/Users/:id" do
+      it "deactivates the tenant-user join record" do
+        user = User.create!(email: "bye@example.com", scim_source: "scim")
+        stu = DeviseScim::ScimTenantUser.create!(scim_tenant_id: tenant.id, user_id: user.id,
+                                                 active: true, provisioned_at: Time.current)
+
+        delete "/scim/v2/Users/#{user.id}", headers: mt_headers
+        expect(response).to have_http_status(:no_content)
+        expect(stu.reload.active).to be(false)
+      end
     end
   end
 end

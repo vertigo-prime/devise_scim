@@ -95,6 +95,37 @@ RSpec.describe DeviseScim::ScimAdapter do
     end
   end
 
+  describe "#to_scim active resolution" do
+    it "uses deleted_at.nil? when scim_active column absent" do
+      allow(user.class).to receive(:column_names).and_return(%w[id email deleted_at created_at updated_at])
+      allow(user).to receive(:deleted_at).and_return(nil)
+      expect(described_class.new(user, scim_u).to_scim.active).to be(true)
+    end
+
+    it "returns false when deleted_at is set" do
+      allow(user.class).to receive(:column_names).and_return(%w[id email deleted_at created_at updated_at])
+      allow(user).to receive(:deleted_at).and_return(Time.now)
+      expect(described_class.new(user, scim_u).to_scim.active).to be(false)
+    end
+
+    it "returns true when neither scim_active nor deleted_at column present" do
+      allow(user.class).to receive(:column_names).and_return(%w[id email created_at updated_at])
+      expect(described_class.new(user, scim_u).to_scim.active).to be(true)
+    end
+  end
+
+  describe "#to_scim name building" do
+    it "builds name when first_name and last_name columns exist" do
+      allow(user.class).to receive(:column_names)
+        .and_return(%w[id email first_name last_name scim_active scim_uid scim_source scim_deprovisioned_at created_at updated_at])
+      allow(user).to receive(:first_name).and_return("Alice")
+      allow(user).to receive(:last_name).and_return("Smith")
+      scim = described_class.new(user, scim_u).to_scim
+      expect(scim.name.given_name).to eq("Alice")
+      expect(scim.name.family_name).to eq("Smith")
+    end
+  end
+
   describe "#group_to_scim" do
     it "raises NotImplementedError" do
       adapter = described_class.new(user, scim_g)

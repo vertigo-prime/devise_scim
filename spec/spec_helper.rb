@@ -6,6 +6,10 @@ if ENV["COVERAGE"]
 
   SimpleCov.start "rails" do
     add_filter "/spec/"
+    add_filter "lib/devise_scim/version.rb"
+    add_filter "lib/devise_scim/rspec"
+    add_filter "lib/devise_scim/minitest.rb"
+    add_filter "lib/generators/devise_scim/adapter_generator.rb"
     formatter SimpleCov::Formatter::CoberturaFormatter
   end
 end
