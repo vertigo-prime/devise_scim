@@ -344,5 +344,5 @@ MIT. Used at your own risk. No liability is held by the author.
 
 This gem was developed with significant assistance from Claude (Anthropic). Contributions and audits welcome, AI or otherwise.
 
-1. Please follow the [contributing guidelines](CONTRIBUTING.md) for submitting pull requests and reporting issues.
+1. Please follow the [contributing guidelines](docs/contributing.md) for submitting pull requests and reporting issues.
 2. Ensure your code adheres to the [code of conduct](CODE_OF_CONDUCT.md) and is tested with the provided test harness.
