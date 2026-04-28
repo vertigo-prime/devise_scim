@@ -20,6 +20,9 @@ jobs:
   release:
     runs-on: ubuntu-latest
 
+    permissions:
+      id-token: write
+
     steps:
       - uses: actions/checkout@0c366fd6a839edf440554fa01a7085ccba70ac98 # v6.0.2
         with:
@@ -78,8 +81,11 @@ jobs:
       - name: Build gem
         run: gem build devise_scim.gemspec
 
-      - name: Push to RubyGems
-        run: gem push "devise_scim-${{ steps.bump.outputs.new }}.gem"
+      - uses: rubygems/release-gem@v1
+#      - name: Push to RubyGems
+#        env:
+#          GEM_HOST_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
+#        run: gem push "devise_scim-${{ steps.bump.outputs.new }}.gem"
 
       - name: Create GitHub release
         env:
