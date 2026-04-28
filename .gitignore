@@ -12,3 +12,5 @@
 .rspec_status
 
 .ruby-version
+
+/spec/internal/log/*
