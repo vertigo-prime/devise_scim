@@ -1,5 +1,14 @@
 ## [Unreleased]
 
+## [0.1.15] - 2026-05-02
+
+- docs: update AGENTS.md with Minitest assertions and clarify auth strategies
+- chore: create SECURITY.md for security policy and guidelines
+- Update issue templates
+- fix: correct link to contributing guidelines in README
+- fix: correct link to contributing guidelines in README
+- Remove test log and ignoring it
+
 ## [0.1.14] - 2026-04-28
 
 - ci: populate CHANGELOG with commits on release
