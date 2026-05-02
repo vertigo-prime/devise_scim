@@ -12,6 +12,7 @@ This is `devise_scim` — a SCIM 2.0 server engine for Rails + Devise applicatio
 | `spec/` | RSpec suite — unit specs for every subsystem, request specs for all endpoints |
 | `spec/internal/` | Combustion test app: `db/schema.rb`, `config/routes.rb`, minimal models, warden initializer |
 | `lib/devise_scim/rspec/` | Host-app test harness: shared examples for Users/Groups/discovery endpoints, `ScimHelpers`, FactoryBot factories |
+| `lib/devise_scim/minitest.rb` | Host-app Minitest assertions (`assert_scim_status`, `assert_scim_error`, payload/header helpers) |
 
 ## Required checks before any commit
 
@@ -68,12 +69,14 @@ The multi-tenant templates reference the `tenant_fk_column` helper method define
 ```
 lib/devise_scim/auth/
   base_strategy.rb    # extracts Bearer token from Authorization header
-  token_strategy.rb   # compares against config.token (single) or ScimTenant.authenticate_token (multi)
+  token_strategy.rb   # compares against config.token (single) or tenant_model.authenticate_token (multi)
   oauth_strategy.rb   # validates Doorkeeper access tokens
 lib/devise_scim/middleware/authenticator.rb
 ```
 
 `Authenticator` is a Rack middleware inserted early in the stack. It intercepts every request whose path starts with `route_prefix`, delegates to the appropriate strategy, and either sets `env["devise_scim.tenant"]` (multi-tenant) or returns a 401 SCIM error response. It also calls `warden.custom_failure!` so Warden does not swallow the 401.
+
+In multi-tenant mode with a custom `tenant_model`, auth strategies call class methods/columns on that model (`authenticate_token`, `doorkeeper_application_id`, `active`). Include `DeviseScim::Concerns::ScimTenant` on custom tenant models to satisfy that contract.
 
 Do not move auth logic into controllers — the middleware layer is the single authentication boundary.
 
