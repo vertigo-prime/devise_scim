@@ -37,7 +37,7 @@ jobs:
         run: bundle exec rspec
 
       - name: Upload coverage to Codecov
-        if: matrix.ruby == '3.4'
+        if: matrix.ruby == '3.4' && github.actor != 'dependabot[bot]'
         uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
