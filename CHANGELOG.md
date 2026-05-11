@@ -1,4 +1,11 @@
 ## [Unreleased]
+- chore: update CHANGELOG.md with recent dependency updates and CI changes
+- chore: update dependencies in Gemfile.lock
+- Bump devise from 5.0.3 to 5.0.4 in the bundler group across 1 directory
+- Bump actions/checkout
+- ci: add auto-approval for Dependabot PRs
+- ci: skip Codecov upload on Dependabot PRs
+- ci: pin dependabot actions, add cooldown and auto-merge
 
 ## [0.1.15] - 2026-05-02
 
