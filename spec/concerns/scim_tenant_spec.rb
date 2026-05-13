@@ -48,6 +48,11 @@ RSpec.describe DeviseScim::Concerns::ScimTenant do
       tenant.update!(auth_method: "oauth")
       expect(model_class.authenticate_token(raw)).to be_nil
     end
+
+    it "skips records with a malformed token_digest" do
+      tenant.update_columns(token_digest: "not-a-bcrypt-hash")
+      expect(model_class.authenticate_token(raw)).to be_nil
+    end
   end
 
   describe "#rotate_token!" do

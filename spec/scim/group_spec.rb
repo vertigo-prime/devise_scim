@@ -65,6 +65,37 @@ RSpec.describe DeviseScim::Scim::Group do
     end
   end
 
+  describe "#to_h with meta" do
+    let(:created_time)  { Time.utc(2026, 1, 2, 3, 4, 5) }
+    let(:modified_time) { Time.utc(2026, 5, 6, 7, 8, 9) }
+
+    it "serializes meta with iso8601 conversion for time-like values" do
+      group = described_class.from_h(full_hash)
+      group.meta = DeviseScim::Scim::Meta.new(
+        resource_type: "Group",
+        created: created_time,
+        last_modified: modified_time
+      )
+      meta = group.to_h["meta"]
+      expect(meta["resourceType"]).to eq("Group")
+      expect(meta["created"]).to eq(created_time.iso8601)
+      expect(meta["lastModified"]).to eq(modified_time.iso8601)
+    end
+
+    it "passes raw values through when they do not respond to iso8601" do
+      group = described_class.from_h(full_hash)
+      group.meta = DeviseScim::Scim::Meta.new(
+        resource_type: nil,
+        created: "2026-01-02T03:04:05Z",
+        last_modified: "2026-05-06T07:08:09Z"
+      )
+      meta = group.to_h["meta"]
+      expect(meta["resourceType"]).to eq("Group")
+      expect(meta["created"]).to eq("2026-01-02T03:04:05Z")
+      expect(meta["lastModified"]).to eq("2026-05-06T07:08:09Z")
+    end
+  end
+
   describe "#to_json" do
     it "produces valid JSON" do
       parsed = JSON.parse(described_class.from_h(full_hash).to_json)

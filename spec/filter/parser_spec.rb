@@ -97,6 +97,14 @@ RSpec.describe DeviseScim::Filter::Parser do
     end
   end
 
+  describe "literal values" do
+    it "parses null literal" do
+      ast = parse("userName eq null")
+      expect(ast.op).to eq("eq")
+      expect(ast.value).to be_nil
+    end
+  end
+
   describe "error cases" do
     it "raises ParseError for invalid input" do
       expect { parse("userName ??? foo") }.to raise_error(DeviseScim::Filter::Parser::ParseError)
@@ -104,6 +112,21 @@ RSpec.describe DeviseScim::Filter::Parser do
 
     it "raises ParseError for trailing garbage" do
       expect { parse('userName eq "a" garbage') }.to raise_error(DeviseScim::Filter::Parser::ParseError)
+    end
+
+    it "raises ParseError when an attribute is not followed by a comparator" do
+      expect { parse('userName "value"') }
+        .to raise_error(DeviseScim::Filter::Parser::ParseError, /Expected comparator/)
+    end
+
+    it "raises ParseError when a comparator is not followed by a value" do
+      expect { parse("userName eq and") }
+        .to raise_error(DeviseScim::Filter::Parser::ParseError, /Expected value/)
+    end
+
+    it "raises ParseError when 'not' appears where a value is expected" do
+      expect { parse("userName eq not") }
+        .to raise_error(DeviseScim::Filter::Parser::ParseError, /Expected value/)
     end
   end
 end

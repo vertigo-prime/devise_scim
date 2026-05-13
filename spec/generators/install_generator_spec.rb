@@ -249,4 +249,12 @@ RSpec.describe DeviseScim::Generators::InstallGenerator do
       expect(migration_exists?("create_scim_tenants")).to be true
     end
   end
+
+  describe "#scim_raw_type" do
+    it "falls back to 'text' when the adapter lookup raises" do
+      gen = build_gen
+      allow(ActiveRecord::Base).to receive(:connection).and_raise(StandardError, "boom")
+      expect(gen.send(:scim_raw_type)).to eq("text")
+    end
+  end
 end

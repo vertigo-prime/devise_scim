@@ -161,6 +161,14 @@ RSpec.describe "DeviseScim Users", type: :request do
       expect(user.reload.scim_active).to be(false)
     end
 
+    it "treats a malformed JSON body as no-op (rescues JSON::ParserError)" do
+      patch "/scim/v2/Users/#{user.id}",
+            params: "{ this is not valid json",
+            headers: headers.merge("Content-Type" => "application/scim+json")
+      expect(response).to have_http_status(:ok)
+      expect(user.reload.scim_active).to be(true)
+    end
+
     it "patches email via userName path" do
       payload = {
         "schemas" => ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],

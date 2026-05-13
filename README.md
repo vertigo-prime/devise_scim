@@ -2,6 +2,10 @@
 
 **SCIM 2.0 server for Rails + Devise**
 
+[![codecov](https://codecov.io/gh/vertigo-prime/devise_scim/graph/badge.svg?token=WQVUHRI0LE)](https://codecov.io/gh/vertigo-prime/devise_scim)
+[![Gem Version](https://badge.fury.io/rb/devise_scim.svg)](https://badge.fury.io/rb/devise_scim)
+
+
 ## What is this?
 
 `devise_scim` mounts a fully compliant SCIM 2.0 server inside any Rails + Devise application, handling user and group provisioning from identity providers like Okta, Azure AD, and OneLogin. Unlike most existing gems it supports both single- and multi-tenant architectures out of the box, is actively maintained, makes no external API calls (pure Ruby — no third-party SCIM SDK), and conforms strictly to RFC 7643 and RFC 7644.
