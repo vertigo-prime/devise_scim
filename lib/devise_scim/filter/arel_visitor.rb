@@ -32,7 +32,7 @@ module DeviseScim
         when Conjunction then visit(node.left).and(visit(node.right))
         when Disjunction then visit(node.left).or(visit(node.right))
         when AttrPath    then visit_attr_path(node)
-        else raise InvalidFilter, "Unknown AST node: #{node.class}" # :nocov:
+        else raise InvalidFilter, "Unknown AST node: #{node.class}"
         end
       end
 
@@ -53,7 +53,7 @@ module DeviseScim
         when "ge" then col.gteq(val)
         when "lt" then col.lt(val)
         when "le" then col.lteq(val)
-        else raise InvalidFilter, "Unknown operator '#{node.op}'" # :nocov:
+        else raise InvalidFilter, "Unknown operator '#{node.op}'"
         end
       end
       # rubocop:enable Metrics/CyclomaticComplexity

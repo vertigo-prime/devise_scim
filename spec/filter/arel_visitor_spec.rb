@@ -130,4 +130,19 @@ RSpec.describe DeviseScim::Filter::ArelVisitor do
       expect { apply('unknownAttr eq "x"') }.to raise_error(DeviseScim::InvalidFilter)
     end
   end
+
+  describe "unknown AST node" do
+    it "raises InvalidFilter when visit encounters an unexpected node type" do
+      expect { visitor.apply(Object.new, User.all) }
+        .to raise_error(DeviseScim::InvalidFilter, /Unknown AST node/)
+    end
+  end
+
+  describe "unknown comparison operator" do
+    it "raises InvalidFilter when a Comparison carries an unsupported op" do
+      bogus = DeviseScim::Filter::Comparison.new(attr_path: "userName", op: "xx", value: "a")
+      expect { visitor.apply(bogus, User.all) }
+        .to raise_error(DeviseScim::InvalidFilter, /Unknown operator/)
+    end
+  end
 end

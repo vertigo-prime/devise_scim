@@ -62,6 +62,23 @@ RSpec.describe DeviseScim::Middleware::Authenticator do
     end
   end
 
+  context "oauth auth_method" do
+    before do
+      DeviseScim.configure do |c|
+        c.tenancy = :single
+        c.auth_method = :oauth
+      end
+      allow_any_instance_of(DeviseScim::Auth::OauthStrategy)
+        .to receive(:authenticate).and_return(:ok)
+    end
+
+    it "delegates to OauthStrategy" do
+      expect(DeviseScim::Auth::OauthStrategy).to receive(:new).and_call_original
+      status, = call(token: "doorkeeper-token")
+      expect(status).to eq(200)
+    end
+  end
+
   context "multi-tenant token auth" do
     let(:tenant) { DeviseScim::ScimTenant.new }
 

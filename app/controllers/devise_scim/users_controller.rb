@@ -43,8 +43,8 @@ module DeviseScim
 
     def parsed_body
       @parsed_body ||= JSON.parse(request.body.read)
-    rescue JSON::ParserError # :nocov:
-      {} # :nocov:
+    rescue JSON::ParserError
+      {}
     end
 
     def apply_filter(scope)
