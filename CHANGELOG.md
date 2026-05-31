@@ -1,4 +1,21 @@
 ## [Unreleased]
+
+## [0.1.16] - 2026-05-31
+
+- Bump ruby/setup-ruby from 1.308.0 to 1.310.0
+- Bump doorkeeper from 5.9.0 to 5.9.1
+- Bump codecov/codecov-action from 6.0.0 to 6.0.1
+- Bump rubocop from 1.86.1 to 1.86.2
+- Bump ruby/setup-ruby from 1.306.0 to 1.308.0
+- fix: improve error handling for unknown AST nodes and comparison operators
+- chore: update CHANGELOG.md with recent dependency updates and CI changes
+- chore: update dependencies in Gemfile.lock
+- Bump devise from 5.0.3 to 5.0.4 in the bundler group across 1 directory
+- Bump actions/checkout
+- ci: add auto-approval for Dependabot PRs
+- ci: skip Codecov upload on Dependabot PRs
+- ci: pin dependabot actions, add cooldown and auto-merge
+- Bump ruby/setup-ruby from 1.302.0 to 1.306.0
 - chore: update CHANGELOG.md with recent dependency updates and CI changes
 - chore: update dependencies in Gemfile.lock
 - Bump devise from 5.0.3 to 5.0.4 in the bundler group across 1 directory
