@@ -1,5 +1,13 @@
 ## [Unreleased]
 
+## [0.1.17] - 2026-06-17
+
+- Bump doorkeeper from 5.9.1 to 5.9.2
+- Bump rubocop from 1.86.2 to 1.87.0
+- Bump net-imap in the bundler group across 1 directory
+- Bump codecov/codecov-action from 6.0.1 to 7.0.0
+- Bump actions/checkout
+
 ## [0.1.16] - 2026-05-31
 
 - Bump ruby/setup-ruby from 1.308.0 to 1.310.0
