@@ -1,5 +1,16 @@
 ## [Unreleased]
 
+## [0.1.18] - 2026-07-01
+
+- chore(deps-dev): bump doorkeeper from 5.9.2 to 5.9.3
+- chore(deps): bump ruby/setup-ruby from 1.310.0 to 1.314.0
+- chore(deps): bump rubocop from 1.87.0 to 1.88.0
+- chore(deps): bump actions/checkout from 6.0.3 to 7.0.0
+- chore(deps-dev): bump sqlite3 from 2.9.4 to 2.9.5
+- chore(deps-dev): bump brakeman from 8.0.4 to 8.0.5
+- chore(deps): bump nokogiri in the bundler group across 1 directory
+- chore(deps-dev): bump simplecov-cobertura from 3.1.0 to 3.2.0
+
 ## [0.1.17] - 2026-06-17
 
 - Bump doorkeeper from 5.9.1 to 5.9.2
