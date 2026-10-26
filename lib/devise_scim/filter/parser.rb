@@ -34,7 +34,7 @@ module DeviseScim
 
       private
 
-      # rubocop:disable Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
+      # rubocop:disable-next Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       def tokenize(str)
         tokens = []
         s = str.strip
@@ -94,7 +94,6 @@ module DeviseScim
         end
         tokens
       end
-      # rubocop:enable Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
 
       def parse_or
         left = parse_and
@@ -114,7 +113,7 @@ module DeviseScim
         left
       end
 
-      # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+      # rubocop:disable-next Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       def parse_primary
         if current&.type == :lparen
           advance
@@ -145,7 +144,6 @@ module DeviseScim
           raise ParseError, "Expected comparator after '#{attr}', got #{current&.value.inspect}"
         end
       end
-      # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
       def extract_sub_attr
         return nil unless current&.type == :dot

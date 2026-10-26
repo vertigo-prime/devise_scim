@@ -36,7 +36,7 @@ module DeviseScim
         end
       end
 
-      # rubocop:disable Metrics/CyclomaticComplexity
+      # rubocop:disable-next Metrics/CyclomaticComplexity
       def visit_comparison(node)
         col_name = SCIM_TO_AR[node.attr_path] || node.attr_path
         col = resolve_column(col_name)
@@ -56,7 +56,6 @@ module DeviseScim
         else raise InvalidFilter, "Unknown operator '#{node.op}'"
         end
       end
-      # rubocop:enable Metrics/CyclomaticComplexity
 
       def visit_attr_path(node)
         col_name = SCIM_TO_AR[node.attribute] || node.attribute

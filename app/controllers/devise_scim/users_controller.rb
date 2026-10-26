@@ -227,7 +227,7 @@ module DeviseScim
       ops.each { |op| apply_op(user, op) }
     end
 
-    # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    # rubocop:disable-next Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def apply_op(user, patch_op)
       return apply_valuemap(user, patch_op.value) unless patch_op.raw_path
 
@@ -245,9 +245,8 @@ module DeviseScim
         user.last_name = patch_op.value if col?(:last_name)
       end
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
-    # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    # rubocop:disable-next Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def apply_valuemap(user, value)
       return unless value.is_a?(Hash)
 
@@ -261,7 +260,6 @@ module DeviseScim
         end
       end
     end
-    # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
     # ── helpers ────────────────────────────────────────────────────────────────
 

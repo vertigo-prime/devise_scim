@@ -14,7 +14,7 @@ module DeviseScim
     Meta        = Struct.new(:resource_type, :created, :last_modified, :version, :location,
                              keyword_init: true)
 
-    # rubocop:disable Metrics/ClassLength
+    # rubocop:disable-next Metrics/ClassLength
     class User
       SCHEMAS = [USER_SCHEMA].freeze
 
@@ -35,7 +35,7 @@ module DeviseScim
 
         private
 
-        # rubocop:disable Metrics/AbcSize
+        # rubocop:disable-next Metrics/AbcSize
         def assign_scalars(user, hash)
           user.id                 = hash["id"]
           user.external_id        = hash["externalId"]
@@ -50,7 +50,6 @@ module DeviseScim
           user.timezone           = hash["timezone"]
           user.active             = hash.key?("active") ? hash["active"] : true
         end
-        # rubocop:enable Metrics/AbcSize
 
         def assign_name(user, hash)
           return unless (n = hash["name"])
@@ -78,7 +77,7 @@ module DeviseScim
         end
       end
 
-      # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+      # rubocop:disable-next Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       def to_h
         h = base_hash.compact
         h["schemas"] = SCHEMAS
@@ -89,7 +88,6 @@ module DeviseScim
         h["meta"]         = serialize_meta(meta, "User") if meta
         h
       end
-      # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
       def to_json(*)
         to_h.to_json
@@ -156,6 +154,5 @@ module DeviseScim
         value.respond_to?(:iso8601) ? value.iso8601 : value
       end
     end
-    # rubocop:enable Metrics/ClassLength
   end
 end
