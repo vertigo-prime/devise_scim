@@ -1,5 +1,36 @@
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-26
+
+- Fix offenses flagged by RuboCop 1.92
+- chore(deps): bump ruby/setup-ruby from 1.324.0 to 1.329.0
+- chore(deps-dev): bump sqlite3 from 2.9.6 to 2.10.0
+- chore(deps): bump rubocop from 1.91.0 to 1.92.0
+- chore(deps-dev): bump brakeman from 8.0.6 to 8.1.0
+- chore(deps): bump rubocop from 1.90.0 to 1.91.0
+- chore(deps-dev): bump doorkeeper from 5.9.6 to 5.9.9
+- chore(deps): bump ruby/setup-ruby from 1.321.0 to 1.324.0
+- chore(deps): bump codecov/codecov-action from 7.0.0 to 7.1.1
+- chore(deps-dev): bump simplecov from 1.1.1 to 1.2.0
+- chore(deps): bump rubocop from 1.89.0 to 1.90.0
+- chore(deps-dev): bump brakeman from 8.0.5 to 8.0.6
+- chore(deps-dev): bump sqlite3 from 2.9.5 to 2.9.6
+- chore(deps-dev): bump simplecov from 1.0.3 to 1.1.1
+- chore(deps-dev): bump doorkeeper from 5.9.5 to 5.9.6
+- chore(deps-dev): bump doorkeeper from 5.9.3 to 5.9.5
+- chore(deps): bump rubocop from 1.88.2 to 1.89.0
+- chore(deps): bump activestorage in the bundler group across 1 directory
+- chore(deps-dev): bump simplecov from 1.0.2 to 1.0.3
+- chore(deps): bump ruby/setup-ruby from 1.319.0 to 1.321.0
+- chore(deps-dev): bump simplecov-cobertura from 3.2.0 to 4.0.0
+- chore(deps): bump ruby/setup-ruby from 1.314.0 to 1.319.0
+- chore(deps): bump rails-html-sanitizer
+- chore(deps): bump actions/checkout from 7.0.0 to 7.0.1
+- chore(deps): bump the bundler group across 1 directory with 2 updates
+- chore(deps): bump rubocop from 1.88.1 to 1.88.2
+- chore(deps): bump websocket-driver
+- chore(deps): bump rubocop from 1.88.0 to 1.88.1
+
 ## [0.1.18] - 2026-07-01
 
 - chore(deps-dev): bump doorkeeper from 5.9.2 to 5.9.3
