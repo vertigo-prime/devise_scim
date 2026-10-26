@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/BlockLength
+# rubocop:disable-next Metrics/BlockLength
 RSpec.shared_examples "SCIM discovery endpoints" do |_options = {}|
   include DeviseScim::RSpec::ScimHelpers
 
@@ -91,4 +91,3 @@ RSpec.shared_examples "SCIM discovery endpoints" do |_options = {}|
     end
   end
 end
-# rubocop:enable Metrics/BlockLength

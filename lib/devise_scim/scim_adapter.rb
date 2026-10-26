@@ -19,11 +19,11 @@ module DeviseScim
       base_user_attributes
     end
 
-    def after_provision;   end
+    def after_provision; end
     def after_deprovision; end
 
-    def handle_group_create;  end
-    def handle_group_update;  end
+    def handle_group_create; end
+    def handle_group_update; end
     def handle_group_destroy; end
 
     def to_scim

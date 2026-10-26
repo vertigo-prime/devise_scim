@@ -6,9 +6,8 @@ module DeviseScim
   module Scim
     GROUP_SCHEMA = "urn:ietf:params:scim:schemas:core:2.0:Group"
 
-    # rubocop:disable Lint/StructNewOverride
+    # rubocop:disable-next Lint/StructNewOverride
     Member = Struct.new(:value, :display, :ref, keyword_init: true)
-    # rubocop:enable Lint/StructNewOverride
 
     class Group
       SCHEMAS = [GROUP_SCHEMA].freeze
