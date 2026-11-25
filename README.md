@@ -12,7 +12,7 @@
 
 ## Requirements
 
-- Ruby 3.2+
+- Ruby 3.3+
 - Rails 7.0+
 - Devise 4.9+
 - bcrypt

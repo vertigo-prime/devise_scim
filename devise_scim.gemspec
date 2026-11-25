@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description = "Mount a RFC 7643/7644-compliant SCIM 2.0 provider into any Rails app using Devise. Supports single- and multi-tenant deployments, bearer-token and OAuth 2.0 client-credentials auth, and a pluggable ScimAdapter."
   spec.homepage = "https://github.com/vertigo-prime/devise_scim"
   spec.license = "MIT"
-  spec.required_ruby_version = ">= 3.2.0"
+  spec.required_ruby_version = ">= 3.3.0"
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["changelog_uri"] = "#{spec.homepage}/blob/main/CHANGELOG.md"
 

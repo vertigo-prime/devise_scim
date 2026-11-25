@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-25
+
+- **Breaking:** drop support for Ruby 3.2 (EOL). `required_ruby_version` is now `>= 3.3.0`
+- Set RuboCop `TargetRubyVersion` to 3.3
+
 ## [0.2.0] - 2026-10-26
 
 - Fix offenses flagged by RuboCop 1.92
